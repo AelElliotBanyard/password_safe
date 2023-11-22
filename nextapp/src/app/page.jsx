@@ -1,6 +1,24 @@
 "use client";
+import React from "react";
+import Input from "../components/InputRegistration";
 
 export default function Home() {
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  function CheckEmpty() {
+    if(email === "" || password === "") {
+      alert("Please fill in all fields");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function Login() {
+    CheckEmpty();
+  }
+
   return (
     <div className="flex flex-col gap-20 min-h-screen w-screen items-center justify-center bg-black font-serif">
       <div className="w-max">
@@ -9,9 +27,9 @@ export default function Home() {
         </p>
       </div>
       <div className="flex flex-col items-center gap-5 w-1/4">
-        <input className="h-8 outline-none border-b border-white bg-black text-white w-full" type="email" placeholder="Enter your email" />
-        <input className="h-8 outline-none border-b border-white bg-black text-white w-full" type="password" placeholder="Enter your password" />
-        <button className="h-8 border-white border text-white rounded w-full" type="submit">Login</button>
+        <Input type="email" value={email} placeholder={"Email"} onChange={(e) => setEmail(e.target.value)}/>
+        <Input type="password" value={password} placeholder={"Password"} onChange={(e) => setPassword(e.target.value)}/>
+        <button className="h-8 border-white border text-white rounded w-full" type="submit" onClick={Login}>Login</button>
         <p> Still don't have an account? <a className="text-blue-500 border-b border-blue-500" href="/Registration">Click to register</a></p>
       </div>
     </div>

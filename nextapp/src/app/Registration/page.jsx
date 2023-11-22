@@ -1,5 +1,5 @@
 "use client";
-import Input from "../components/InputRegistration";
+import Input from "../components/Input";
 import React from "react";
 
 const page = () => {

@@ -26,10 +26,10 @@ export default function Home() {
           PASSWORD SAFE
         </p>
       </div>
-      <div className="flex flex-col items-center gap-5 w-1/4">
+      <div className="flex flex-col items-center gap-5 w-1/4 justify-center">
         <Input type="email" value={email} placeholder={"Email"} onChange={(e) => setEmail(e.target.value)}/>
         <Input type="password" value={password} placeholder={"Password"} onChange={(e) => setPassword(e.target.value)}/>
-        <button className="h-8 border-white border text-white rounded w-full" type="submit" onClick={Login}>Login</button>
+        <button className="h-8 border-white border text-white rounded w-full hover:bg-white hover:text-black" type="submit" onClick={Login}>Login</button>
         <p> Still don't have an account? <a className="text-blue-500 border-b border-blue-500" href="/Registration">Click to register</a></p>
       </div>
     </div>

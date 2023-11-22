@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Input from "../components/InputRegistration";
+import Input from "./components/InputRegistration";
 
 export default function Home() {
   const [email, setEmail] = React.useState("");

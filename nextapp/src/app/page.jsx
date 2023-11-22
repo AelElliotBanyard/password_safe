@@ -12,7 +12,7 @@ export default function Home() {
         <input className="h-8 outline-none border-b border-white bg-black text-white w-full" type="email" placeholder="Enter your email" />
         <input className="h-8 outline-none border-b border-white bg-black text-white w-full" type="password" placeholder="Enter your password" />
         <button className="h-8 border-white border text-white rounded w-full" type="submit">Login</button>
-        <p> Noch kein Konto? <a className="text-blue-500 border-b border-blue-500" href="/Registration">Hier registrieren</a></p>
+        <p> Still don't have an account? <a className="text-blue-500 border-b border-blue-500" href="/Registration">Click to register</a></p>
       </div>
     </div>
   );

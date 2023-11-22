@@ -1,13 +1,49 @@
 "use client";
-import Input from "../../components/InputRegistration";
+import Input from "../components/InputRegistration";
+import React from "react";
 
 const page = () => {
+  const[firstname, setFirstname] = React.useState("");
+  const[lastname, setLastname] = React.useState(""); 
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [conPassword, setConPassword] = React.useState("");
+
+  function PasswordCheck() {
+    if(password === conPassword) {
+      return true;
+    } else {
+      alert("Passwords do not match");
+      return false;
+    }
+  }
+  
+  function CheckEmpty() {
+    if(firstname === "" || lastname === "" || email === "" || password === "" || conPassword === "") {
+      alert("Please fill in all fields");
+      return false;
+    } else {
+      return true;
+  }
+  }
+
+  function Register() {
+    CheckEmpty();
+    PasswordCheck();
+  }
+
   return (
-    <div className="flex flex-col gap-20 min-h-screen w-screen items-center justify-center bg-black font-serif">
-      <p className="animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-white pr-5 text-5xl text-white font-bold font-serif ">
-        Registrieren
-      </p>
-      <Input type="email" />
+    <div className="flex flex-col gap-14 min-h-screen items-center justify-center w-screen bg-black font-serif">
+      <p className="text-5xl text-white font-bold font-serif">Registration</p>
+      <div className="flex flex-col gap-5 w-1/5  ">
+        <Input type="text" value={firstname} placeholder={"Firstname"} onChange={(e) => setFirstname(e.target.value)}/>
+        <Input type="text" value={lastname} placeholder={"Lastname"} onChange={(e) => setLastname(e.target.value)}/>
+        <Input type="email" value={email} placeholder={"Email"} onChange={(e) => setEmail(e.target.value)}/>
+        <Input type="password" value={password} placeholder={"Password"} onChange={(e) => setPassword(e.target.value)}/>
+        <Input type="password" value={conPassword} placeholder={"Confirm Password"} onChange={(e) => setConPassword(e.target.value)}/>
+        <button className="h-8 border-white border text-white rounded w-full" type="submit" onClick={Register}>Register</button>
+        <p> Already have an account? <a className="text-blue-500 border-b border-blue-500" href="/">Click to Login</a></p>
+      </div>
     </div>
   )
 }

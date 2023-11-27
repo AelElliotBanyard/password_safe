@@ -1,26 +1,23 @@
 "use client";
 import React from "react";
 import Input from "./components/Input";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Home() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const router = useRouter()
 
-  function CheckEmpty() {
+  function Login() {
     if(email === "" || password === "") {
       alert("Please fill in all fields");
-      return false;
     } else {
-      return true;
+      router.push("/EntryOverview");
     }
   }
 
-  function Login() {
-    CheckEmpty();
-  }
-
   return (
-    <div className="flex flex-col gap-20 min-h-screen w-screen items-center justify-center bg-black font-serif">
+    <div className="flex flex-col gap-20 min-h-screen w-screen items-center justify-center  font-serif">
       <div className="w-max">
         <p className="animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-white pr-5 text-5xl text-white font-bold font-serif ">
           PASSWORD SAFE

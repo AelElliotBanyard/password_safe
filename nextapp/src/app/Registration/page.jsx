@@ -1,6 +1,7 @@
 "use client";
 import Input from "../components/Input";
 import React from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 const page = () => {
   const[firstname, setFirstname] = React.useState("");
@@ -8,6 +9,7 @@ const page = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [conPassword, setConPassword] = React.useState("");
+  const router = useRouter()
 
   function PasswordCheck() {
     if(password === conPassword) {
@@ -18,22 +20,20 @@ const page = () => {
     }
   }
   
-  function CheckEmpty() {
-    if(firstname === "" || lastname === "" || email === "" || password === "" || conPassword === "") {
-      alert("Please fill in all fields");
-      return false;
-    } else {
-      return true;
-  }
-  }
 
   function Register() {
-    CheckEmpty();
-    PasswordCheck();
+      if(firstname === "" || lastname === "" || email === "" || password === "" || conPassword === "") {
+        alert("Please fill in all fields");
+      } else if(!PasswordCheck()) {
+        alert("Passwords do not match");
+      } 
+        else {
+        router.push("/");
+    }
   }
 
   return (
-    <div className="flex flex-col gap-14 min-h-screen items-center justify-center w-screen bg-black font-serif">
+    <div className="flex flex-col gap-14 min-h-screen items-center justify-center w-screen font-serif">
       <p className="text-5xl text-white font-bold font-serif">Registration</p>
       <div className="flex flex-col justify-center items-center gap-5 w-1/4 ">
         <Input type="text" value={firstname} placeholder={"Firstname"} onChange={(e) => setFirstname(e.target.value)}/>

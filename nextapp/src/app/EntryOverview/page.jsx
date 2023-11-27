@@ -1,9 +1,12 @@
 'use client';
 import React from 'react'
+import Entry from '../components/Entry'
 
 const page = () => {
   return (
-    <div>page</div>
+    <div>
+      <Entry />
+    </div>
   )
 }
 

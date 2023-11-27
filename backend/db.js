@@ -29,11 +29,7 @@ const uri = process.env.MONGO_URI;
 const port = process.env.MONGO_PORT;
 
 mongoose.connect(
-  `mongodb://${username}:${password}@${uri}:${port}/${databaseName}`,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
+  `mongodb://${username}:${password}@${uri}:${port}/${databaseName}`
 );
 
 const entrySchema = new mongoose.Schema({

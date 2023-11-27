@@ -115,7 +115,7 @@ const getUser = async ({ email }) => {
   }
 };
 
-const checkEmail = async (email) => {
+const checkEmail = async ({ email }) => {
   try {
     const user = await User.findOne({ email: email }).exec();
     if (user === null) {
@@ -191,9 +191,12 @@ const getEntries = async ({ user_id }) => {
   }
 };
 
-const getEntry = async ({ entry_id }) => {
+const getEntry = async ({ entry_id, user_id }) => {
   try {
-    const entry = await Entry.findOne({ _id: entry_id }).exec();
+    const entry = await Entry.findOne({
+      _id: entry_id,
+      user_id: user_id,
+    }).exec();
     const password = decrypt(entry.password);
     return {
       success: true,
@@ -222,6 +225,7 @@ const updateEntry = async ({
   username,
   password,
   url,
+  user_id,
 }) => {
   try {
     let tempUrl = "";
@@ -230,7 +234,10 @@ const updateEntry = async ({
     }
     const encryptedPassword = encrypt(password);
 
-    const entry = await Entry.findOne({ _id: entry_id }).exec();
+    const entry = await Entry.findOne({
+      _id: entry_id,
+      user_id: user_id,
+    }).exec();
     entry.title = title;
     entry.description = description;
     entry.username = username;
@@ -247,6 +254,20 @@ const updateEntry = async ({
   }
 };
 
+const deleteEntry = async ({ entry_id, user_id }) => {
+  try {
+    const entry = await Entry.findOne({
+      _id: entry_id,
+      user_id: user_id,
+    }).exec();
+    await entry.delete();
+    return { success: true };
+  } catch (error) {
+    console.log(error);
+    return { success: false };
+  }
+};
+
 module.exports = {
   createUser,
   checkLogin,
@@ -256,4 +277,5 @@ module.exports = {
   getEntries,
   getEntry,
   updateEntry,
+  deleteEntry,
 };

@@ -10,6 +10,7 @@ const {
   getEntries,
   getEntry,
   updateEntry,
+  deleteEntry,
 } = require("./db");
 
 const app = express();
@@ -48,11 +49,8 @@ app.post("/register", async (req, res) => {
         email: email,
         password: password,
       });
-      if (user) {
-        return res
-          .json({ success: true, user: user.user.toJSON() })
-          .status(200)
-          .send();
+      if (user.success) {
+        return res.json(user).status(200).send();
       } else {
         return res
           .json({
@@ -91,11 +89,8 @@ app.post("/createEntry", async (req, res) => {
       url: url,
       user_id: user_id,
     });
-    if (newEntry) {
-      return res
-        .json({ success: true, entry: newEntry.entry.toJSON() })
-        .status(200)
-        .send();
+    if (newEntry.success) {
+      return res.json(newEntry).status(200).send();
     } else {
       return res
         .json({
@@ -120,7 +115,7 @@ app.get("/entries/:user_id", async (req, res) => {
   try {
     const entries = await getEntries({ user_id: user_id });
     if (entries.success) {
-      return res.json({ success: true, entries: entries }).send();
+      return res.json(entries).send();
     } else {
       return res
         .json({
@@ -145,7 +140,7 @@ app.get("/entries/:user_id/:entry_id", async (req, res) => {
   try {
     const entry = await getEntry({ user_id: user_id, entry_id: entry_id });
     if (entry.success) {
-      return res.json({ success: true, entry: entry }).send();
+      return res.json(entry).send();
     } else {
       return res
         .json({
@@ -168,18 +163,34 @@ app.get("/entries/:user_id/:entry_id", async (req, res) => {
 app.put("/entries/:user_id/:entry_id", async (req, res) => {
   const { user_id, entry_id } = req.params;
   const { title, description, username, password, url } = req.body;
+  let newEntry = {
+    title: "",
+    description: "",
+    username: "",
+    password: "",
+    url: "",
+    user_id: user_id,
+    entry_id: entry_id,
+  };
+  if (password) {
+    newEntry.password = password;
+  }
+  if (title) {
+    newEntry.title = title;
+  }
+  if (description) {
+    newEntry.description = description;
+  }
+  if (username) {
+    newEntry.username = username;
+  }
+  if (url) {
+    newEntry.url = url;
+  }
   try {
-    const entry = await updateEntry({
-      entry_id: entry_id,
-      title: title,
-      description: description,
-      username: username,
-      password: password,
-      url: url,
-      user_id: user_id,
-    });
+    const entry = await updateEntry(newEntry);
     if (entry.success) {
-      return res.json({ success: true, entry: entry }).send();
+      return res.json(entry).send();
     } else {
       return res
         .json({

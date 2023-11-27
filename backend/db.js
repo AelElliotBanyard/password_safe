@@ -3,23 +3,21 @@ const mongoose = require("mongoose");
 
 const crypto = require("crypto");
 const algorithm = "aes-256-cbc";
-const key = crypto.randomBytes(32);
+const key = Buffer.from("our-super-long-key-that-is-32-by", "utf-8");
 const iv = crypto.randomBytes(16);
 
-function encrypt(text) {
-  let cipher = crypto.createCipheriv(algorithm, Buffer.from(key), iv);
-  let encrypted = cipher.update(text);
-  encrypted = Buffer.concat([encrypted, cipher.final()]);
-  return { iv: iv.toString("hex"), encryptedData: encrypted.toString("hex") };
+function encrypt(password) {
+  const cipher = crypto.createCipheriv(algorithm, key, iv);
+  let encryptedPassword = cipher.update(password, "utf-8", "hex");
+  encryptedPassword += cipher.final("hex");
+  return encryptedPassword;
 }
 
-function decrypt(text) {
-  let iv = Buffer.from(text.iv, "hex");
-  let encryptedText = Buffer.from(text.encryptedData, "hex");
-  let decipher = crypto.createDecipheriv(algorithm, Buffer.from(key), iv);
-  let decrypted = decipher.update(encryptedText);
-  decrypted = Buffer.concat([decrypted, decipher.final()]);
-  return decrypted.toString();
+function decrypt(encryptedPassword) {
+  const decipher = crypto.createDecipheriv(algorithm, key, iv);
+  let decryptedPassword = decipher.update(encryptedPassword, "hex", "utf-8");
+  decryptedPassword += decipher.final("utf-8");
+  return decryptedPassword;
 }
 
 const username = process.env.MONGO_INITDB_ROOT_USERNAME;
@@ -36,10 +34,7 @@ const entrySchema = new mongoose.Schema({
   title: String,
   description: String,
   username: String,
-  password: {
-    iv: String,
-    encryptedData: String,
-  },
+  password: String,
   url: String,
   created_ts: Date,
   updated_ts: Date,
@@ -52,10 +47,7 @@ const userSchema = new mongoose.Schema({
   firstname: String,
   lastname: String,
   email: String,
-  password: {
-    iv: String,
-    encryptedData: String,
-  },
+  password: String,
   created_ts: Date,
   updated_ts: Date,
 });
@@ -224,21 +216,27 @@ const updateEntry = async ({
   user_id,
 }) => {
   try {
-    let tempUrl = "";
-    if (url) {
-      tempUrl = url;
-    }
     const encryptedPassword = encrypt(password);
 
     const entry = await Entry.findOne({
       _id: entry_id,
       user_id: user_id,
     }).exec();
-    entry.title = title;
-    entry.description = description;
-    entry.username = username;
-    entry.password = encryptedPassword;
-    entry.url = tempUrl;
+    if (title != "") {
+      entry.title = title;
+    }
+    if (description != "") {
+      entry.description = description;
+    }
+    if (username != "") {
+      entry.username = username;
+    }
+    if (password != "") {
+      entry.password = encryptedPassword;
+    }
+    if (url != "") {
+      entry.url = url;
+    }
     entry.updated_ts = new Date();
 
     await entry.save();

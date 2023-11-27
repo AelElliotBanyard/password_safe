@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const crypto = require("crypto");
 const algorithm = "aes-256-cbc";
 const key = Buffer.from("our-super-long-key-that-is-32-by", "utf-8");
-const iv = crypto.randomBytes(16);
+const iv = Buffer.from("our-super-long-i", "utf-8");
 
 function encrypt(password) {
   const cipher = crypto.createCipheriv(algorithm, key, iv);
@@ -254,7 +254,10 @@ const deleteEntry = async ({ entry_id, user_id }) => {
       _id: entry_id,
       user_id: user_id,
     }).exec();
-    await entry.delete();
+    if (entry === null) {
+      return { success: false };
+    }
+    const deleteEntry = await Entry.findByIdAndDelete(entry_id).exec();
     return { success: true };
   } catch (error) {
     console.log(error);

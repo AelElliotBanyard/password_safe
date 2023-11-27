@@ -2,7 +2,7 @@
 import React from "react";
 import Input from "./Input";
 
-const Entry = (title, descirption, username, password, url, onChange) => {
+const NewEntry = (title, descirption, username, password, url, onChange) => {
   return (
     <div className="flex flex-col gap-14 min-h-screen items-center justify-center w-full font-serif">
       <p className="text-5xl text-white font-bold font-serif">New Entry</p>
@@ -39,4 +39,4 @@ const Entry = (title, descirption, username, password, url, onChange) => {
   );
 };
 
-export default Entry;
+export default NewEntry;

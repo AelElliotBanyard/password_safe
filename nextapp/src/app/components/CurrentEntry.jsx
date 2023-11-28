@@ -99,7 +99,7 @@ const CurrentEntry = ({
           <div className=" flex justify-center items-center">
             <EntryButtons
               onDeleteClick={() => {
-                api.deleteEntry(currentEntry._id);
+                api.deleteEntry({ id: currentEntry._id });
                 setCurrentEntry({});
                 getData();
                 setShowEmpty(true);
@@ -185,7 +185,7 @@ const CurrentEntry = ({
           <div className=" flex justify-center items-center">
             <EntryButtons
               onDeleteClick={() => {
-                api.deleteEntry(currentEntry._id);
+                api.deleteEntry({ id: currentEntry._id });
                 setCurrentEntry({});
                 getData();
                 setShowEmpty(true);

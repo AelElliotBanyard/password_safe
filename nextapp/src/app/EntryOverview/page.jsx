@@ -14,9 +14,9 @@ const page = () => {
   const router = useRouter();
   const [entries, setEntries] = React.useState([]);
   const [showEditor, setShowEditor] = useState(false);
-  const [showEntry, setShowEntry] = useState(true);
+  const [showEntry, setShowEntry] = useState(false);
   const [showNewEntry, setShowNewEntry] = useState(false);
-  const [showEmpty, setShowEmpty] = useState(false);
+  const [showEmpty, setShowEmpty] = useState(true);
   const [currentEntry, setCurrentEntry] = useState({
     title: "New Entry",
     username: "Username",
@@ -59,20 +59,22 @@ const page = () => {
       <div className=" h-5/6 flex flex-row">
         <div className="flex flex-col min-h-full max-h-full w-1/3 pt-10 pb-10 pr-10 pl-10">
           <div className=" h-full w-full bg-[#07111B] bg-opacity-30 rounded-lg flex flex-col justify-between shadow-lg shadow-[#0C1F31] p-5">
-            <div className=" max-h-[83.3%] flex flex-col overflow-y-scroll scrollbar scrollbar-thumb-[#225280] scrollbar-thumb-rounded-lg gap-2 p-2">
+            <div className=" max-h-[83.3%] flex flex-col overflow-y-scroll scrollbar scrollbar-thumb-[#225280] scrollbar-thumb-rounded-lg gap-5 p-2">
 
               {entries.map((entry, index) => (
-                <ListEntry
-                  key={index}
-                  entry={entry}
-                  onClick={() => {
-                    setShowEntry(true);
-                    setShowEditer(false);
-                    setShowNewEntry(false);
-                    setShowEmpty(false);
-                    setCurrentEntry(entry);
-                  }}
-                />
+                <div className={" " + (entry === currentEntry ? "border-none " : "")}>
+                  <ListEntry
+                    key={index}
+                    entry={entry}
+                    onClick={() => {
+                      setShowEntry(true);
+                      setShowEditor(false);
+                      setShowNewEntry(false);
+                      setShowEmpty(false);
+                      setCurrentEntry(entry);
+                    }}
+                  />
+                </div>
               ))}
             </div>
             <button
@@ -87,14 +89,6 @@ const page = () => {
           </div>
         </div>
         <div className="flex flex-col min-h-[83.3%] w-2/3 pt-10 pb-10 pr-32 pl-32">
-          <CurrentEntry
-            setShowEntry={setShowEntry}
-            setShowEditor={setShowEditor}
-            setShowEmpty={setShowEmpty}
-            setShowNewEntry={setShowNewEntry}
-            showEditor={showEditor}
-            currentEntry={currentEntry}
-          />
           {showEntry && (
             <CurrentEntry
               setShowEntry={setShowEntry}

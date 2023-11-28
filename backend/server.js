@@ -105,7 +105,7 @@ app.post("/refresh", (req, res) => {
       expiresIn: "10m",
     });
 
-    res.header("Authorization", accessToken).send(decoded.user);
+    res.header("Authorization", "Bearer " + accessToken).send(true);
   } catch (error) {
     return res.status(400).send("Invalid refresh token.");
   }

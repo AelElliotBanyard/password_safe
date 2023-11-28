@@ -9,6 +9,7 @@ const NewEntry = ({
   setShowEditor,
   setShowEntry,
   setShowNewEntry,
+  getData,
 }) => {
   const [title, setTitle] = React.useState("");
   const [username, setUsername] = React.useState("");
@@ -27,8 +28,9 @@ const NewEntry = ({
     if (response.status === 200) {
       setShowEmpty(false);
       setShowEditor(false);
-      setShowEntry(true);
+      setShowEntry(false);
       setShowNewEntry(false);
+      getData();
     }
   };
 

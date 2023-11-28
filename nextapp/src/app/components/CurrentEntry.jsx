@@ -2,11 +2,14 @@ import React from "react";
 import EntryButtons from "./EntryButtons";
 import InputPassword from "./InputPassword";
 import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
+import api from "@/utils/api";
 
 const CurrentEntry = ({
   setShowEmpty,
   setShowEditor,
   setShowEntry,
+  setCurrentEntry,
+  getData,
   showEditor,
   currentEntry,
   showEntry,
@@ -96,6 +99,9 @@ const CurrentEntry = ({
           <div className=" flex justify-center items-center">
             <EntryButtons
               onDeleteClick={() => {
+                api.deleteEntry(currentEntry._id);
+                setCurrentEntry({});
+                getData();
                 setShowEmpty(true);
                 setShowEditor(false);
                 setShowEntry(false);
@@ -106,11 +112,29 @@ const CurrentEntry = ({
               }}
               disableEdit={true}
               onSaveClick={() => {
+                api.updateEntry({
+                  id: currentEntry._id,
+                  title: title,
+                  username: username,
+                  password: password,
+                  url: url,
+                  description: description,
+                });
+                setCurrentEntry({
+                  _id: currentEntry._id,
+                  title: title,
+                  username: username,
+                  password: password,
+                  url: url,
+                  description: description,
+                });
+                getData();
                 setShowEmpty(false);
                 setShowEditor(false);
                 setShowEntry(true);
               }}
               disableSave={false}
+              disableDelete={false}
             />
           </div>
         </div>
@@ -161,6 +185,9 @@ const CurrentEntry = ({
           <div className=" flex justify-center items-center">
             <EntryButtons
               onDeleteClick={() => {
+                api.deleteEntry(currentEntry._id);
+                setCurrentEntry({});
+                getData();
                 setShowEmpty(true);
                 setShowEditor(false);
                 setShowEntry(false);
@@ -171,6 +198,7 @@ const CurrentEntry = ({
                 setShowEntry(false);
               }}
               disableEdit={false}
+              disableDelete={false}
               onSaveClick={() => {
                 setShowEmpty(false);
                 setShowEditor(false);

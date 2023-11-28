@@ -127,6 +127,8 @@ const page = () => {
         <div className="flex flex-col min-h-[83.3%] w-2/3 pt-10 pb-10 pr-32 pl-32">
           {showEntry && (
             <CurrentEntry
+              getData={getData}
+              setCurrentEntry={setCurrentEntry}
               setShowEntry={setShowEntry}
               setShowEditor={setShowEditor}
               setShowEmpty={setShowEmpty}

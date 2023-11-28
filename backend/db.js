@@ -172,7 +172,7 @@ const getEntries = async ({ user_id }) => {
       };
       tempEntries.push(tempEntry);
     }
-    return { success: true, entries: entries };
+    return { success: true, entries: tempEntries };
   } catch (error) {
     console.log(error);
     return { success: false };

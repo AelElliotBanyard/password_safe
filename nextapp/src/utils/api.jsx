@@ -11,31 +11,53 @@ const axiosInstance = axios.create({
   },
 });
 
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-axiosInstance.interceptors.response.use((response) => {
-  return response;
-});
-
-const login = async ({ email, password }) => {
+const login = async ({ email, password, setToken }) => {
   try {
     const response = await axiosInstance.post("login", {
       email,
       password,
     });
     if (response.status === 200) {
-      if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-      }
+      axios.interceptors.request.use(
+        function (config) {
+          if (typeof response.headers.getAuthorization === "function") {
+            config.headers.Authorization = response.headers.getAuthorization();
+            setToken(response.headers.getAuthorization());
+          }
+          return config;
+        },
+        function (error) {
+          return Promise.reject(error);
+        }
+      );
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    return false;
+  }
+};
+
+const verify = async ({ setToken }) => {
+  try {
+    const response = await axiosInstance.post("refresh");
+    if (response.status === 200) {
+      axios.interceptors.request.clear();
+
+      axios.interceptors.request.use(
+        function (config) {
+          if (typeof response.headers.getAuthorization === "function") {
+            config.headers.Authorization = response.headers.getAuthorization();
+            setToken(response.headers.getAuthorization());
+          }
+          return config;
+        },
+        function (error) {
+          return Promise.reject(error);
+        }
+      );
+
       return true;
     } else {
       return false;
@@ -63,8 +85,9 @@ const register = async ({ firstname, lastname, email, password }) => {
   }
 };
 
-const logout = () => {
-  localStorage.removeItem("token");
+const logout = ({ setToken }) => {
+  axios.interceptors.request.clear();
+  setToken(null);
   return true;
 };
 
@@ -161,6 +184,7 @@ const api = {
   getEntry,
   updateEntry,
   deleteEntry,
+  verify,
 };
 
 export default api;

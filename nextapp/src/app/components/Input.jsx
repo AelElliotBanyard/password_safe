@@ -1,9 +1,6 @@
 import React from "react";
 
-const InputRegistration = () => {
-  const [type, setType] = React.useState("");
-  const [placeholder, setPlaceholder] = React.useState("");
-  const [value, setValue] = React.useState("");
+const InputRegistration = ({value, type, placeholder, onChange}) => {
 
   return (
     <div className="w-screen flex items-center justify-center">

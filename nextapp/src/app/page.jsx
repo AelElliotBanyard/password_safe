@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Input from "./components/Input";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [email, setEmail] = React.useState("");

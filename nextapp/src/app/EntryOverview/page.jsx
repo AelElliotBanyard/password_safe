@@ -6,11 +6,17 @@ import CurrentEntry from "../components/CurrentEntry";
 import EmptySpace from "../components/EmptySpace";
 
 const page = () => {
-  const [showEditer, setShowEditer] = React.useState(false);
+  const [showEditor, setShowEditor] = React.useState(false);
   const [showEntry, setShowEntry] = React.useState(false);
   const [showNewEntry, setShowNewEntry] = React.useState(false);
   const [showEmpty, setShowEmpty] = React.useState(false);
-  const [currentEntry, setCurrentEntry] = React.useState({});
+  const [currentEntry, setCurrentEntry] = React.useState({
+    title: "New Entry",
+    username: "Username",
+    password: "Password",
+    url: "URL",
+    description: "Description",
+  });
 
   const handleNewEntry = () => {
     setShowNewEntry(true);
@@ -47,27 +53,28 @@ const page = () => {
           {showEntry && (
             <CurrentEntry
               setShowEntry={setShowEntry}
-              setShowEditer={setShowEditer}
+              setShowEditor={setShowEditor}
               currentEntry={currentEntry}
             />
           )}
-          {showEditer && (
+          {showEditor && (
             <CurrentEntry
               setShowEntry={setShowEntry}
-              setShowEditer={setShowEditer}
+              setShowEditor={setShowEditor}
+              currentEntry={currentEntry}
             />
           )}
           {showNewEntry && (
             <NewEntry
               setShowEntry={setShowEntry}
-              setShowEditer={setShowEditer}
+              setShowEditor={setShowEditor}
               setShowNewEntry={setShowNewEntry}
             />
           )}
           {showEmpty && (
             <EmptySpace
               setShowEmpty={setShowEmpty}
-              setShowEditer={setShowEditer}
+              setShowEditor={setShowEditor}
               setShowNewEntry={setShowNewEntry}
               setShowEntry={setShowEntry}
             />

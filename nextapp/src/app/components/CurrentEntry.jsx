@@ -3,21 +3,31 @@ import EntryButtons from "./EntryButtons";
 
 const CurrentEntry = ({
   setShowEmpty,
-  setShowEditer,
+  setShowEditor,
   setShowNewEntry,
   setShowEntry,
-  showEditer,
+  showEditor,
   currentEntry
 }) => {
-  const [title, setTitle] = React.useState(currentEntry.title);
-  const [username, setUsername] = React.useState(currentEntry.username);
-  const [password, setPassword] = React.useState(currentEntry.password);
-  const [url, setUrl] = React.useState(currentEntry.url);
-  const [description, setDescription] = React.useState(currentEntry.description);
+  const [title, setTitle] = React.useState("");
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [url, setUrl] = React.useState("");
+  const [description, setDescription] = React.useState("");
+
+  React.useEffect(() => {
+    if (currentEntry) {
+      setTitle(currentEntry.title);
+      setUsername(currentEntry.username);
+      setPassword(currentEntry.password);
+      setUrl(currentEntry.url);
+      setDescription(currentEntry.description);
+    }
+  }, [currentEntry]);
 
   return (
     <div className="h-full w-full">
-      <div className="h-full bg-[#07111B] bg-opacity-30 rounded-lg flex flex-col justify-between gap-5 shadow-lg shadow-[#0C1F31] p-5">
+      <div className="h-full bg-[#07111B] bg-opacity-30 rounded-lg flex flex-col justify-between shadow-lg shadow-[#0C1F31] p-5">
         <p className="text-3xl text-white flex justify-center items-center font-serif ">
           {title}
         </p>
@@ -42,7 +52,7 @@ const CurrentEntry = ({
           </div>
         </div>
 
-        {showEditer && (
+        {showEditor && (
           <div className="h-full bg-[#07111B] bg-opacity-30 rounded-lg flex flex-col justify-between gap-5 shadow-lg shadow-[#0C1F31] p-5 ">
             <p className="text-3xl text-white flex justify-center items-center font-serif ">
               {title}
@@ -51,7 +61,7 @@ const CurrentEntry = ({
               <div className="flex flex-col w-full gap-8">
                 <div className="flex flex-col gap-2 w-full border-b-2 border-b-[#07111B]">
                   <p className="text-white opacity-75">Username</p>
-                  <p className="text-white text-xl  ">{username}</p>
+                  <input type="text" className="text-white text-xl outline-none" value={username} onChange={(e) => {setUsername(e.target.value)}} />
                 </div>
                 <div className="flex flex-col gap-2 w-full border-b-2 border-b-[#07111B] ">
                   <p className="text-white opacity-75">Password</p>
@@ -72,7 +82,7 @@ const CurrentEntry = ({
         <div className=" flex justify-center items-center">
           <EntryButtons
             setShowEmpty={setShowEmpty}
-            setShowEditer={setShowEditer}
+            setShowEditor={setShowEditor}
             setShowNewEntry={setShowNewEntry}
             setShowEntry={setShowEntry}
           />

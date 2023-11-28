@@ -250,10 +250,7 @@ const updateEntry = async ({
 
 const deleteEntry = async ({ entry_id, user_id }) => {
   try {
-    const entry = await Entry.findOne({
-      _id: entry_id,
-      user_id: user_id,
-    }).exec();
+    const entry = await Entry.findById(entry_id).exec();
     if (entry === null) {
       return { success: false };
     }

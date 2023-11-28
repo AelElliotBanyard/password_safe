@@ -13,6 +13,29 @@ const {
   deleteEntry,
 } = require("./db");
 
+const jwt = require("jsonwebtoken");
+
+function generateAccessToken(user) {
+  return jwt.sign(user, process.env.TOKEN_SECRET, { expiresIn: "10m" });
+}
+
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+    console.log(err);
+
+    if (err) return res.sendStatus(403);
+
+    req.user = user;
+
+    next();
+  });
+}
+
 const app = express();
 const port = 5001;
 
@@ -32,7 +55,8 @@ app.post("/login", async (req, res) => {
 
   if (login.success) {
     const user = await getUser({ email: email });
-    return res.json(user).send();
+    const token = generateAccessToken(user);
+    return res.json(token).send();
   } else {
     return res.send(login.message);
   }
@@ -78,8 +102,8 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.post("/createEntry", async (req, res) => {
-  const { title, description, username, password, url, user_id } = req.body;
+app.post("/createEntry", authenticateToken, async (req, res) => {
+  const { title, description, username, password, url } = req.body;
   try {
     const newEntry = await createEntry({
       title: title,
@@ -87,7 +111,7 @@ app.post("/createEntry", async (req, res) => {
       username: username,
       password: password,
       url: url,
-      user_id: user_id,
+      user_id: req.user._id,
     });
     if (newEntry.success) {
       return res.json(newEntry).status(200).send();
@@ -110,10 +134,10 @@ app.post("/createEntry", async (req, res) => {
   }
 });
 
-app.get("/entries/:user_id", async (req, res) => {
-  const { user_id } = req.params;
+app.get("/entries", authenticateToken, async (req, res) => {
+  const { _id } = req.user;
   try {
-    const entries = await getEntries({ user_id: user_id });
+    const entries = await getEntries({ user_id: _id });
     if (entries.success) {
       return res.json(entries).send();
     } else {
@@ -135,10 +159,11 @@ app.get("/entries/:user_id", async (req, res) => {
   }
 });
 
-app.get("/entries/:user_id/:entry_id", async (req, res) => {
-  const { user_id, entry_id } = req.params;
+app.get("/entries/:entry_id", async (req, res) => {
+  const { entry_id } = req.params;
+  const { _id } = req.user;
   try {
-    const entry = await getEntry({ user_id: user_id, entry_id: entry_id });
+    const entry = await getEntry({ user_id: _id, entry_id: entry_id });
     if (entry.success) {
       return res.json(entry).send();
     } else {
@@ -160,8 +185,9 @@ app.get("/entries/:user_id/:entry_id", async (req, res) => {
   }
 });
 
-app.put("/entries/:user_id/:entry_id", async (req, res) => {
-  const { user_id, entry_id } = req.params;
+app.put("/entries/:entry_id", authenticateToken, async (req, res) => {
+  const { entry_id } = req.params;
+  const { _id } = req.user;
   const { title, description, username, password, url } = req.body;
   let newEntry = {
     title: "",
@@ -169,7 +195,7 @@ app.put("/entries/:user_id/:entry_id", async (req, res) => {
     username: "",
     password: "",
     url: "",
-    user_id: user_id,
+    user_id: _id,
     entry_id: entry_id,
   };
   if (password) {
@@ -210,12 +236,13 @@ app.put("/entries/:user_id/:entry_id", async (req, res) => {
   }
 });
 
-app.delete("/entries/:user_id/:entry_id", async (req, res) => {
-  const { user_id, entry_id } = req.params;
+app.delete("/entries/:entry_id", authenticateToken, async (req, res) => {
+  const { entry_id } = req.params;
+  const { _id } = req.user;
   try {
     const entry = await deleteEntry({
       entry_id: entry_id,
-      user_id: user_id,
+      user_id: _id,
     });
     if (entry.success) {
       return res.json({ success: true }).send();

@@ -10,6 +10,7 @@ const page = () => {
   const [showEntry, setShowEntry] = React.useState(false);
   const [showNewEntry, setShowNewEntry] = React.useState(false);
   const [showEmpty, setShowEmpty] = React.useState(false);
+  const [currentEntry, setCurrentEntry] = React.useState({});
 
   const handleNewEntry = () => {
     setShowNewEntry(true);
@@ -47,6 +48,7 @@ const page = () => {
             <CurrentEntry
               setShowEntry={setShowEntry}
               setShowEditer={setShowEditer}
+              currentEntry={currentEntry}
             />
           )}
           {showEditer && (

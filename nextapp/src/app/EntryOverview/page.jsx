@@ -8,9 +8,10 @@ import api from "@/utils/api";
 import ListEntry from "../components/ListEntry";
 import { useTokenContext } from "@/context/TokenContext";
 import { useRouter } from "next/navigation";
+import { BiLogOut } from "react-icons/bi";
 
 const page = () => {
-  const { token } = useTokenContext();
+  const { token, setToken } = useTokenContext();
   const router = useRouter();
   const [entries, setEntries] = React.useState([]);
   const [showEditor, setShowEditor] = useState(false);
@@ -55,8 +56,19 @@ const page = () => {
     getData();
   }, []);
 
+
+  const handleLogout = () => {
+    api.logout({setToken});
+    router.replace("/");
+  };
+
   return (
     <div className="flex flex-col w-screen h-screen font-serif overflow-y-hidden">
+      <div className="flex flex-col justify-center items-center text-xl h-[16.7%] absolute pl-10 gap-5 text-white flex-grow hover:text-red-600 ">
+        <button className="flex flex-row" onClick={handleLogout} >
+          <BiLogOut size={48} /> 
+        </button>
+      </div>
       <p className="w-full min-h-[16.7%] text-3xl bg-[#07111B] bg-opacity-30 shadow-lg shadow-[#0C1F31] flex justify-center items-center ">
         Password Safe
       </p>
@@ -69,7 +81,9 @@ const page = () => {
                 <div
                   className={
                     " " +
-                    (entry === currentEntry ? "border-none bg-[#07111B] p-3 rounded " : "")
+                    (entry === currentEntry
+                      ? "border-none bg-[#07111B] p-3 rounded "
+                      : "")
                   }
                 >
                   <ListEntry
@@ -84,7 +98,7 @@ const page = () => {
                       if (entry === currentEntry) {
                         setShowEntry(false);
                         setShowEmpty(true);
-                        setCurrentEntry({})
+                        setCurrentEntry({});
                       }
                     }}
                   />
@@ -96,7 +110,12 @@ const page = () => {
               type="submit"
               onClick={handleNewEntry}
             >
-              <div className={" h-1/2 w-full border border-white rounded text-white p-2 flex items-center justify-center hover:bg-white hover:bg-opacity-20 " + (showNewEntry ? " bg-opacity-30 bg-white" : "")}>
+              <div
+                className={
+                  " h-1/2 w-full border border-white rounded text-white p-2 flex items-center justify-center hover:bg-white hover:bg-opacity-20 " +
+                  (showNewEntry ? " bg-opacity-30 bg-white" : "")
+                }
+              >
                 <FaPlus size={16} />
               </div>
             </button>

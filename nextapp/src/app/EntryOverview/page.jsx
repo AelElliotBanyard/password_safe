@@ -69,14 +69,17 @@ const page = () => {
           <BiLogOut size={48} /> 
         </button>
       </div>
-      <p className="w-full min-h-[16.7%] text-3xl bg-[#07111B] bg-opacity-30 shadow-lg shadow-[#0C1F31] flex justify-center items-center ">
-        Password Safe
+      <p className="w-full min-h-[16.7%] text-3xl bg-[#07111B] bg-opacity-30 shadow-lg shadow-[#0C1F31] flex justify-center items-center font-bold ">
+        PASSWORD SAFE
       </p>
 
       <div className=" h-5/6 flex flex-row">
         <div className="flex flex-col min-h-full max-h-full w-1/3 pt-10 pb-10 pr-10 pl-10">
           <div className=" h-full w-full bg-[#07111B] bg-opacity-30 rounded-lg flex flex-col justify-between shadow-lg shadow-[#0C1F31] p-5">
-            <div className=" max-h-[83.3%] flex flex-col overflow-y-scroll scrollbar scrollbar-thumb-[#225280] scrollbar-thumb-rounded-lg gap-5 p-2">
+            <div className="h-1/6 w-full text-2xl font-bold flex items-center justify-center">
+              <p >Your Entry's</p>
+            </div>
+            <div className=" max-h-[66.6%] flex flex-col overflow-y-scroll scrollbar scrollbar-thumb-[#225280] scrollbar-thumb-rounded-lg gap-5 p-2">
               {entries.map((entry, index) => (
                 <div
                   className={

@@ -7,13 +7,23 @@ const CurrentEntry = ({
   setShowNewEntry,
   setShowEntry,
   showEditer,
-  currentEntry
+  currentEntry,
 }) => {
-  const [title, setTitle] = React.useState(currentEntry.title);
-  const [username, setUsername] = React.useState(currentEntry.username);
-  const [password, setPassword] = React.useState(currentEntry.password);
-  const [url, setUrl] = React.useState(currentEntry.url);
-  const [description, setDescription] = React.useState(currentEntry.description);
+  const [title, setTitle] = React.useState("");
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [url, setUrl] = React.useState("");
+  const [description, setDescription] = React.useState("");
+
+  React.useEffect(() => {
+    if (currentEntry) {
+      setTitle(currentEntry.title);
+      setUsername(currentEntry.username);
+      setPassword(currentEntry.password);
+      setUrl(currentEntry.url);
+      setDescription(currentEntry.description);
+    }
+  }, [currentEntry]);
 
   return (
     <div className="h-full w-full">

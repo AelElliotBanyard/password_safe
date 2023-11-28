@@ -20,18 +20,12 @@ const secretKey = process.env.BACKEND_TOKEN_SECRET;
 function generateAccessToken(user) {
   return jwt.sign(user, secretKey, { expiresIn: "10m" });
 }
-function generateRefreshToken(user) {
-  return jwt.sign(user, secretKey, { expiresIn: "30m" });
-}
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const accessToken = authHeader && authHeader.split(" ")[1];
-  const refreshToken = req.headers["cookie"]
-    .split("refreshToken=")[1]
-    .split(";")[0];
 
-  if (!accessToken && !refreshToken) {
+  if (!accessToken) {
     return res.status(401).send("Access Denied. No token provided.");
   }
 
@@ -40,26 +34,7 @@ function authenticateToken(req, res, next) {
     req.user = decoded.user;
     next();
   } catch (error) {
-    if (!refreshToken) {
-      return res.status(401).send("Access Denied. No refresh token provided.");
-    }
-
-    try {
-      const decoded = jwt.verify(refreshToken, secretKey);
-      const accessToken = jwt.sign({ user: decoded.user }, secretKey, {
-        expiresIn: "1h",
-      });
-
-      res
-        .cookie("refreshToken", refreshToken, {
-          httpOnly: true,
-          sameSite: "strict",
-        })
-        .header("Authorization", accessToken)
-        .send(decoded.user);
-    } catch (error) {
-      return res.status(400).send("Invalid Token.");
-    }
+    return res.status(400).send("Invalid token.");
   }
 }
 
@@ -83,34 +58,13 @@ app.post("/login", async (req, res) => {
   if (login.success) {
     const user = await getUser({ email: email });
     const accessToken = generateAccessToken(user);
-    const refreshToken = generateRefreshToken(user);
     return res
+      .header("Access-Control-Expose-Headers", "Authorization")
       .header("Authorization", "Bearer " + accessToken)
-      .cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-      })
       .json({ success: true, user: user.user })
       .send();
   } else {
     return res.send(login.message);
-  }
-});
-
-app.post("/refresh", (req, res) => {
-  const refreshToken = req.cookies["refreshToken"];
-  if (!refreshToken) {
-    return res.status(401).send("Access Denied. No refresh token provided.");
-  }
-
-  try {
-    const decoded = jwt.verify(refreshToken, secretKey);
-    const accessToken = jwt.sign({ user: decoded.user }, secretKey, {
-      expiresIn: "10m",
-    });
-
-    res.header("Authorization", "Bearer " + accessToken).send(true);
-  } catch (error) {
-    return res.status(400).send("Invalid refresh token.");
   }
 });
 

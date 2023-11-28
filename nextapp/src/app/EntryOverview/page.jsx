@@ -116,9 +116,7 @@ const page = () => {
               setShowNewEntry={setShowNewEntry}
             />
           )}
-          {showEmpty && (
-            <EmptySpace/>
-          )}
+          {showEmpty && <EmptySpace />}
         </div>
       </div>
     </div>

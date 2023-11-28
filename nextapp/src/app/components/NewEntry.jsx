@@ -33,7 +33,7 @@ const NewEntry = ({
   return (
     <div className="h-full bg-[#07111B] bg-opacity-30 rounded-lg flex flex-col justify-between gap-5 shadow-lg shadow-[#0C1F31] p-5 ">
       <p className="text-3xl text-white flex justify-center items-center font-serif ">
-        {title}
+        {title === "" ? "New Entry" : title}
       </p>
       <div className="flex flex-col text-lg justify-center items-center ">
         <div className="flex flex-col w-full gap-8">

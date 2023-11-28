@@ -30,6 +30,7 @@ const page = () => {
     setShowEntry(false);
     setShowEditor(false);
     setShowEmpty(false);
+    setCurrentEntry({});
     if (showEmpty === false && showEntry === false) {
       setShowEmpty(true);
       setShowEntry(false);
@@ -75,11 +76,16 @@ const page = () => {
                     key={index}
                     entry={entry}
                     onClick={() => {
-                      setShowEntry(!showEntry);
+                      setShowEntry(true);
                       setShowEditor(false);
                       setShowNewEntry(false);
                       setShowEmpty(false);
                       setCurrentEntry(entry);
+                      if (entry === currentEntry) {
+                        setShowEntry(false);
+                        setShowEmpty(true);
+                        setCurrentEntry({})
+                      }
                     }}
                   />
                 </div>
@@ -90,7 +96,7 @@ const page = () => {
               type="submit"
               onClick={handleNewEntry}
             >
-              <div className=" h-1/2 w-full border border-white rounded text-white p-2 flex items-center justify-center hover:bg-white hover:bg-opacity-20">
+              <div className={" h-1/2 w-full border border-white rounded text-white p-2 flex items-center justify-center hover:bg-white hover:bg-opacity-20 " + (showNewEntry ? " bg-opacity-30 bg-white" : "")}>
                 <FaPlus size={16} />
               </div>
             </button>

@@ -1,5 +1,7 @@
 import React from "react";
 import EntryButtons from "./EntryButtons";
+import InputPassword from "./InputPassword";
+import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 
 const CurrentEntry = ({
   setShowEmpty,
@@ -8,12 +10,14 @@ const CurrentEntry = ({
   showEditor,
   currentEntry,
   showEntry,
+
 }) => {
   const [title, setTitle] = React.useState("");
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [url, setUrl] = React.useState("");
   const [description, setDescription] = React.useState("");
+  const [show, setShow] = React.useState(false);
 
   React.useEffect(() => {
     if (currentEntry) {
@@ -47,9 +51,7 @@ const CurrentEntry = ({
               </div>
               <div className="flex flex-col gap-2 w-full border-b-2 border-b-[#07111B] ">
                 <p className="text-white opacity-75">Password</p>
-                <input
-                  type="text"
-                  className="text-white text-xl outline-none bg-transparent focus:outline-none"
+                <InputPassword
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
@@ -86,7 +88,7 @@ const CurrentEntry = ({
               setShowEditor={setShowEditor}
               setShowEntry={setShowEntry}
             />
-          </div>  
+          </div>
         </div>
       )}
 
@@ -101,9 +103,26 @@ const CurrentEntry = ({
                 <p className="text-white opacity-75">Username</p>
                 <p className="text-white text-xl ">{username}</p>
               </div>
-              <div className="flex flex-col gap-2 w-full border-b-2 border-b-[#07111B] ">
-                <p className="text-white opacity-75">Password</p>
-                <p className="text-white text-xl ">{password}</p>
+              <div className="flex flex-col gap-2 w-full border-b-2 border-b-[#07111B]">
+                <p>Password</p>
+                <div className="flex flex-row gap-0 w-full">
+                  <input
+                    type={show ? "text" : "password"}
+                    value={password}
+                    className="text-white text-xl outline-none bg-transparent focus:outline-none flex-grow"
+                  />
+                  {show ? (
+                    <RiEyeCloseLine
+                      className="text-white text-xl cursor-pointer"
+                      onClick={() => setShow(!show)}
+                    />
+                  ) : (
+                    <RiEyeLine
+                      className="text-white text-xl cursor-pointer"
+                      onClick={() => setShow(!show)}
+                    />
+                  )}
+                </div>
               </div>
               <div className="flex flex-col gap-2 w-full border-b-2 border-b-[#07111B] ">
                 <p className="text-white opacity-75">URL</p>

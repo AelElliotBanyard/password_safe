@@ -3,6 +3,8 @@ import InputPassword from "./InputPassword";
 import EntryButtons from "./EntryButtons";
 import api from "@/utils/api";
 import { LiaRandomSolid } from "react-icons/lia";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const NewEntry = ({
   setShowEmpty,

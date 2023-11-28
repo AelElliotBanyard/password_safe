@@ -3,6 +3,8 @@ import Input from "../components/Input";
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
 import api from "@/utils/api";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const page = () => {
   const [firstname, setFirstname] = React.useState("");
@@ -16,7 +18,6 @@ const page = () => {
     if (password === conPassword) {
       return true;
     } else {
-      alert("Passwords do not match");
       return false;
     }
   }
@@ -29,9 +30,13 @@ const page = () => {
       password === "" ||
       conPassword === ""
     ) {
-      alert("Please fill in all fields");
+      toast.error("Please fill in all fields", {
+        theme: "dark",
+      });
     } else if (!PasswordCheck()) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match", {
+        theme: "dark",
+      });
     } else {
       const register = await api.register({
         firstname,
@@ -40,10 +45,17 @@ const page = () => {
         password,
       });
       if (!register) {
-        alert("Something went wrong");
+        toast.error("Something went wrong", {
+          theme: "dark",
+        });
         return;
       }
-      router.push("/");
+      toast.success("Successfully registered", {
+        theme: "dark",
+      });
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
     }
   }
 
@@ -96,6 +108,19 @@ const page = () => {
           </a>
         </p>
       </div>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 };

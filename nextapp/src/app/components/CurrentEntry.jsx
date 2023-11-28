@@ -3,6 +3,8 @@ import EntryButtons from "./EntryButtons";
 import InputPassword from "./InputPassword";
 import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 import api from "@/utils/api";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CurrentEntry = ({
   setShowEmpty,

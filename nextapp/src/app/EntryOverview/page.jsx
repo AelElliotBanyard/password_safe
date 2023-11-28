@@ -58,11 +58,11 @@ const page = () => {
 
       <div className=" h-5/6 flex flex-row">
         <div className="flex flex-col min-h-full max-h-full w-1/3 pt-10 pb-10 pr-10 pl-10">
-          <div className=" h-full w-full bg-[#07111B] bg-opacity-30 rounded-lg flex flex-col justify-between shadow-lg shadow-[#0C1F31] p-5">
+          <div className=" h-full w-full bg-[#0D2237] bg-opacity-30 rounded-lg flex flex-col justify-between shadow-lg shadow-[#0C1F31] p-5">
             <div className=" max-h-[83.3%] flex flex-col overflow-y-scroll scrollbar scrollbar-thumb-[#225280] scrollbar-thumb-rounded-lg gap-5 p-2">
 
               {entries.map((entry, index) => (
-                <div className={" " + (entry === currentEntry ? "border-none " : "")}>
+                <div className={" " + (entry === currentEntry ? "border-none bg-[#07111B] " : "")}>
                   <ListEntry
                     key={index}
                     entry={entry}

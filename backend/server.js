@@ -18,22 +18,45 @@ const jwt = require("jsonwebtoken");
 function generateAccessToken(user) {
   return jwt.sign(user, process.env.TOKEN_SECRET, { expiresIn: "10m" });
 }
+function generateRefreshToken(user) {
+  return jwt.sign(user, process.env.TOKEN_SECRET, { expiresIn: "30m" });
+}
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+  const accessToken = authHeader && authHeader.split(" ")[1];
+  const refreshToken = req.cookies["refreshToken"];
 
-  if (token == null) return res.sendStatus(401);
+  if (!accessToken && !refreshToken) {
+    return res.status(401).send("Access Denied. No token provided.");
+  }
 
-  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
-    console.log(err);
-
-    if (err) return res.sendStatus(403);
-
-    req.user = user;
-
+  try {
+    const decoded = jwt.verify(accessToken, secretKey);
+    req.user = decoded.user;
     next();
-  });
+  } catch (error) {
+    if (!refreshToken) {
+      return res.status(401).send("Access Denied. No refresh token provided.");
+    }
+
+    try {
+      const decoded = jwt.verify(refreshToken, secretKey);
+      const accessToken = jwt.sign({ user: decoded.user }, secretKey, {
+        expiresIn: "1h",
+      });
+
+      res
+        .cookie("refreshToken", refreshToken, {
+          httpOnly: true,
+          sameSite: "strict",
+        })
+        .header("Authorization", accessToken)
+        .send(decoded.user);
+    } catch (error) {
+      return res.status(400).send("Invalid Token.");
+    }
+  }
 }
 
 const app = express();
@@ -55,10 +78,36 @@ app.post("/login", async (req, res) => {
 
   if (login.success) {
     const user = await getUser({ email: email });
-    const token = generateAccessToken(user);
-    return res.json(token).send();
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+    return res
+      .header("Authorization", "Bearer " + accessToken)
+      .cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        sameSite: "strict",
+      })
+      .json({ success: true, user: user })
+      .send();
   } else {
     return res.send(login.message);
+  }
+});
+
+app.post("/refresh", (req, res) => {
+  const refreshToken = req.cookies["refreshToken"];
+  if (!refreshToken) {
+    return res.status(401).send("Access Denied. No refresh token provided.");
+  }
+
+  try {
+    const decoded = jwt.verify(refreshToken, secretKey);
+    const accessToken = jwt.sign({ user: decoded.user }, secretKey, {
+      expiresIn: "10m",
+    });
+
+    res.header("Authorization", accessToken).send(decoded.user);
+  } catch (error) {
+    return res.status(400).send("Invalid refresh token.");
   }
 });
 

@@ -13,6 +13,7 @@ const page = () => {
   const [password, setPassword] = React.useState("");
   const [conPassword, setConPassword] = React.useState("");
   const router = useRouter();
+  const [checkboxChecked, setCheckboxChecked] = React.useState(false);
 
   function PasswordCheck() {
     if (password === conPassword) {
@@ -93,10 +94,20 @@ const page = () => {
           placeholder={"Confirm Password"}
           onChange={(e) => setConPassword(e.target.value)}
         />
+        <div className="flex flex-row gap-2">
+          <input
+          className="bg-transaprent border-white border-2 w-5 h-5 rounded"
+            type="checkbox"
+            checked={checkboxChecked}
+            onChange={() => setCheckboxChecked(!checkboxChecked)}
+          />
+          <p>I accept the terms and coonditions</p>
+        </div>
         <button
-          className="h-8 border-white border text-white rounded w-full hover:bg-white hover:bg-opacity-30 "
+          className={"h-8 border-white border text-white rounded w-full  " + (checkboxChecked ? "opacity-100 hover:bg-white hover:bg-opacity-30" : "opacity-50")}
           type="submit"
           onClick={Register}
+          disabled={!checkboxChecked}
         >
           Register
         </button>

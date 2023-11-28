@@ -3,31 +3,19 @@ import { IoIosSave } from "react-icons/io";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 const EntryButtons = ({
-  setShowEntry,
-  setShowEditor,
-  setShowEmpty,
   onEditClick,
   onSaveClick,
   onDeleteClick,
 }) => {
   const handleEdit = () => {
-    setShowEntry(false);
-    setShowEditor(true);
-    setShowEmpty(false);
     onEditClick();
   };
 
   const handleSave = () => {
-    setShowEditor(false);
-    setShowEntry(true);
-    setShowEmpty(false);
     onSaveClick();
   };
 
   const handleDelete = () => {
-    setShowEditor(false);
-    setShowEntry(false);
-    setShowEmpty(true);
     onDeleteClick();
   };
 

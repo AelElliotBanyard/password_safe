@@ -3,8 +3,8 @@ import EntryButtons from "./EntryButtons";
 import InputPassword from "./InputPassword";
 import { RiEyeLine, RiEyeCloseLine } from "react-icons/ri";
 import api from "@/utils/api";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CurrentEntry = ({
   setShowEmpty,
@@ -107,6 +107,12 @@ const CurrentEntry = ({
                 setShowEmpty(true);
                 setShowEditor(false);
                 setShowEntry(false);
+                toast.success("Entry deleted!", {
+                  theme: "dark",
+                });
+                /*toast.error("Could not delete entry", {
+                  theme: "dark",
+                });*/
               }}
               onEditClick={() => {
                 setShowEmpty(false);
@@ -134,6 +140,12 @@ const CurrentEntry = ({
                 setShowEmpty(false);
                 setShowEditor(false);
                 setShowEntry(true);
+                toast.success("Entry updated!", {
+                  theme: "dark",
+                });
+                /*toast.error("Could not update entry", {
+                  theme: "dark",
+                });*/
               }}
               disableSave={false}
               disableDelete={false}
@@ -210,6 +222,18 @@ const CurrentEntry = ({
           </div>
         </div>
       )}
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 };

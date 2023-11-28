@@ -1,13 +1,35 @@
 import React from "react";
 import InputPassword from "./InputPassword";
 import EntryButtons from "./EntryButtons";
+import api from "@/utils/api";
 
-const NewEntry = ({ setShowEmpty, setShowEditor, setShowEntry }) => {
+const NewEntry = ({
+  setShowEmpty,
+  setShowEditor,
+  setShowEntry,
+  setShowNewEntry,
+}) => {
   const [title, setTitle] = React.useState("");
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [url, setUrl] = React.useState("");
   const [description, setDescription] = React.useState("");
+
+  const handleSave = async () => {
+    const response = await api.createEntry({
+      title,
+      username,
+      password,
+      url,
+      description,
+    });
+    if (response.status === 200) {
+      setShowEmpty(false);
+      setShowEditor(false);
+      setShowEntry(true);
+      setShowNewEntry(false);
+    }
+  };
   return (
     <div className="h-full bg-[#07111B] bg-opacity-30 rounded-lg flex flex-col justify-between gap-5 shadow-lg shadow-[#0C1F31] p-5 ">
       <p className="text-3xl text-white flex justify-center items-center font-serif ">
@@ -75,6 +97,9 @@ const NewEntry = ({ setShowEmpty, setShowEditor, setShowEntry }) => {
           setShowEmpty={setShowEmpty}
           setShowEditor={setShowEditor}
           setShowEntry={setShowEntry}
+          onSaveClick={() => {
+            handleSave();
+          }}
         />
       </div>
     </div>

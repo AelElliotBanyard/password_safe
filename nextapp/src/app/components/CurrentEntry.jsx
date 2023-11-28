@@ -28,7 +28,7 @@ const CurrentEntry = ({
   return (
     <div className="h-full w-full">
       {showEditor && (
-        <div className="h-full bg-[#0D2237] bg-opacity-30 rounded-lg flex flex-col justify-between gap-5 shadow-lg shadow-[#0C1F31] p-5 ">
+        <div className="h-full bg-[#07111B] bg-opacity-30 rounded-lg flex flex-col justify-between gap-5 shadow-lg shadow-[#0C1F31] p-5 ">
           <p className="text-3xl text-white flex justify-center items-center font-serif ">
             {title}
           </p>
@@ -91,7 +91,7 @@ const CurrentEntry = ({
       )}
 
       {showEntry && (
-        <div className="h-full bg-[#0D2237] bg-opacity-30 rounded-lg flex flex-col justify-between gap-5 shadow-lg shadow-[#0C1F31] p-5 ">
+        <div className="h-full bg-[#07111B] bg-opacity-30 rounded-lg flex flex-col justify-between gap-5 shadow-lg shadow-[#0C1F31] p-5 ">
           <p className="text-3xl text-white flex justify-center items-center font-serif ">
             {title}
           </p>

@@ -26,10 +26,14 @@ const page = () => {
   });
 
   const handleNewEntry = () => {
-    setShowNewEntry(true);
+    setShowNewEntry(!showNewEntry);
     setShowEntry(false);
     setShowEditor(false);
     setShowEmpty(false);
+    if (showEmpty === false && showEntry === false) {
+      setShowEmpty(true);
+      setShowEntry(false);
+    }
   };
 
   useEffect(() => {
@@ -52,26 +56,26 @@ const page = () => {
 
   return (
     <div className="flex flex-col w-screen h-screen font-serif overflow-y-hidden">
-      <p className="w-full min-h-[16.7%] text-3xl border-b-2 border-b-[#07111B] flex justify-center items-center ">
+      <p className="w-full min-h-[16.7%] text-3xl bg-[#07111B] bg-opacity-30 shadow-lg shadow-[#0C1F31] flex justify-center items-center ">
         Password Safe
       </p>
 
       <div className=" h-5/6 flex flex-row">
         <div className="flex flex-col min-h-full max-h-full w-1/3 pt-10 pb-10 pr-10 pl-10">
-          <div className=" h-full w-full bg-[#0D2237] bg-opacity-30 rounded-lg flex flex-col justify-between shadow-lg shadow-[#0C1F31] p-5">
+          <div className=" h-full w-full bg-[#07111B] bg-opacity-30 rounded-lg flex flex-col justify-between shadow-lg shadow-[#0C1F31] p-5">
             <div className=" max-h-[83.3%] flex flex-col overflow-y-scroll scrollbar scrollbar-thumb-[#225280] scrollbar-thumb-rounded-lg gap-5 p-2">
               {entries.map((entry, index) => (
                 <div
                   className={
                     " " +
-                    (entry === currentEntry ? "border-none bg-[#07111B] " : "")
+                    (entry === currentEntry ? "border-none bg-[#07111B] p-3 rounded " : "")
                   }
                 >
                   <ListEntry
                     key={index}
                     entry={entry}
                     onClick={() => {
-                      setShowEntry(true);
+                      setShowEntry(!showEntry);
                       setShowEditor(false);
                       setShowNewEntry(false);
                       setShowEmpty(false);

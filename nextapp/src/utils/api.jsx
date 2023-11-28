@@ -17,12 +17,12 @@ const login = async ({ email, password, setToken }) => {
       email,
       password,
     });
-    if (response.status === 200) {
-      axios.interceptors.request.use(
+    if (response.data.success) {
+      setToken(response.headers.getAuthorization());
+      axiosInstance.interceptors.request.use(
         function (config) {
           if (typeof response.headers.getAuthorization === "function") {
             config.headers.Authorization = response.headers.getAuthorization();
-            setToken(response.headers.getAuthorization());
           }
           return config;
         },
@@ -30,34 +30,6 @@ const login = async ({ email, password, setToken }) => {
           return Promise.reject(error);
         }
       );
-      return true;
-    } else {
-      return false;
-    }
-  } catch (error) {
-    return false;
-  }
-};
-
-const verify = async ({ setToken }) => {
-  try {
-    const response = await axiosInstance.post("refresh");
-    if (response.status === 200) {
-      axios.interceptors.request.clear();
-
-      axios.interceptors.request.use(
-        function (config) {
-          if (typeof response.headers.getAuthorization === "function") {
-            config.headers.Authorization = response.headers.getAuthorization();
-            setToken(response.headers.getAuthorization());
-          }
-          return config;
-        },
-        function (error) {
-          return Promise.reject(error);
-        }
-      );
-
       return true;
     } else {
       return false;
@@ -184,7 +156,6 @@ const api = {
   getEntry,
   updateEntry,
   deleteEntry,
-  verify,
 };
 
 export default api;

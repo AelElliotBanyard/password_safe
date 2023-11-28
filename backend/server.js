@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const http = require("http");
 const cors = require("cors");
@@ -14,20 +15,17 @@ const {
 } = require("./db");
 
 const jwt = require("jsonwebtoken");
+const secretKey = process.env.BACKEND_TOKEN_SECRET;
 
 function generateAccessToken(user) {
-  return jwt.sign(user, process.env.TOKEN_SECRET, { expiresIn: "10m" });
-}
-function generateRefreshToken(user) {
-  return jwt.sign(user, process.env.TOKEN_SECRET, { expiresIn: "30m" });
+  return jwt.sign(user, secretKey, { expiresIn: "10m" });
 }
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const accessToken = authHeader && authHeader.split(" ")[1];
-  const refreshToken = req.cookies["refreshToken"];
 
-  if (!accessToken && !refreshToken) {
+  if (!accessToken) {
     return res.status(401).send("Access Denied. No token provided.");
   }
 
@@ -36,26 +34,7 @@ function authenticateToken(req, res, next) {
     req.user = decoded.user;
     next();
   } catch (error) {
-    if (!refreshToken) {
-      return res.status(401).send("Access Denied. No refresh token provided.");
-    }
-
-    try {
-      const decoded = jwt.verify(refreshToken, secretKey);
-      const accessToken = jwt.sign({ user: decoded.user }, secretKey, {
-        expiresIn: "1h",
-      });
-
-      res
-        .cookie("refreshToken", refreshToken, {
-          httpOnly: true,
-          sameSite: "strict",
-        })
-        .header("Authorization", accessToken)
-        .send(decoded.user);
-    } catch (error) {
-      return res.status(400).send("Invalid Token.");
-    }
+    return res.status(400).send("Invalid token.");
   }
 }
 
@@ -79,35 +58,12 @@ app.post("/login", async (req, res) => {
   if (login.success) {
     const user = await getUser({ email: email });
     const accessToken = generateAccessToken(user);
-    const refreshToken = generateRefreshToken(user);
     return res
+      .header("Access-Control-Expose-Headers", "Authorization")
       .header("Authorization", "Bearer " + accessToken)
-      .cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        sameSite: "strict",
-      })
-      .json({ success: true, user: user })
-      .send();
+      .json({ success: true, user: user.user })
   } else {
     return res.send(login.message);
-  }
-});
-
-app.post("/refresh", (req, res) => {
-  const refreshToken = req.cookies["refreshToken"];
-  if (!refreshToken) {
-    return res.status(401).send("Access Denied. No refresh token provided.");
-  }
-
-  try {
-    const decoded = jwt.verify(refreshToken, secretKey);
-    const accessToken = jwt.sign({ user: decoded.user }, secretKey, {
-      expiresIn: "10m",
-    });
-
-    res.header("Authorization", "Bearer " + accessToken).send(true);
-  } catch (error) {
-    return res.status(400).send("Invalid refresh token.");
   }
 });
 
@@ -123,14 +79,13 @@ app.post("/register", async (req, res) => {
         password: password,
       });
       if (user.success) {
-        return res.json(user).status(200).send();
+        return res.json(user).status(200);
       } else {
         return res
           .json({
             success: false,
             message: "User creation failed. Try again!",
           })
-          .send();
       }
     } else {
       return res
@@ -138,7 +93,6 @@ app.post("/register", async (req, res) => {
           success: false,
           message: "User already exists!",
         })
-        .send();
     }
   } catch (error) {
     console.log(error);
@@ -147,7 +101,7 @@ app.post("/register", async (req, res) => {
         success: false,
         message: "Something went wrong!",
       })
-      .send();
+      ;
   }
 });
 
@@ -163,14 +117,14 @@ app.post("/createEntry", authenticateToken, async (req, res) => {
       user_id: req.user._id,
     });
     if (newEntry.success) {
-      return res.json(newEntry).status(200).send();
+      return res.json(newEntry).status(200);
     } else {
       return res
         .json({
           success: false,
           message: "Entry creation failed. Try again!",
         })
-        .send();
+        ;
     }
   } catch (error) {
     console.log(error);
@@ -179,7 +133,7 @@ app.post("/createEntry", authenticateToken, async (req, res) => {
         success: false,
         message: "Something went wrong!",
       })
-      .send();
+      ;
   }
 });
 
@@ -188,14 +142,14 @@ app.get("/entries", authenticateToken, async (req, res) => {
   try {
     const entries = await getEntries({ user_id: _id });
     if (entries.success) {
-      return res.json(entries).send();
+      return res.json(entries);
     } else {
       return res
         .json({
           success: false,
           message: "Error fetching entries. Try again!",
         })
-        .send();
+        ;
     }
   } catch (error) {
     console.log(error);
@@ -204,7 +158,7 @@ app.get("/entries", authenticateToken, async (req, res) => {
         success: false,
         message: "Something went wrong!",
       })
-      .send();
+      ;
   }
 });
 
@@ -214,14 +168,14 @@ app.get("/entries/:entry_id", async (req, res) => {
   try {
     const entry = await getEntry({ user_id: _id, entry_id: entry_id });
     if (entry.success) {
-      return res.json(entry).send();
+      return res.json(entry);
     } else {
       return res
         .json({
           success: false,
           message: "Error fetching entry. Try again!",
         })
-        .send();
+        ;
     }
   } catch (error) {
     console.log(error);
@@ -230,7 +184,7 @@ app.get("/entries/:entry_id", async (req, res) => {
         success: false,
         message: "Something went wrong!",
       })
-      .send();
+      ;
   }
 });
 
@@ -265,14 +219,14 @@ app.put("/entries/:entry_id", authenticateToken, async (req, res) => {
   try {
     const entry = await updateEntry(newEntry);
     if (entry.success) {
-      return res.json(entry).send();
+      return res.json(entry);
     } else {
       return res
         .json({
           success: false,
           message: "Error fetching entry. Try again!",
         })
-        .send();
+        ;
     }
   } catch (error) {
     console.log(error);
@@ -281,7 +235,7 @@ app.put("/entries/:entry_id", authenticateToken, async (req, res) => {
         success: false,
         message: "Something went wrong!",
       })
-      .send();
+      ;
   }
 });
 
@@ -294,14 +248,14 @@ app.delete("/entries/:entry_id", authenticateToken, async (req, res) => {
       user_id: _id,
     });
     if (entry.success) {
-      return res.json({ success: true }).send();
+      return res.json({ success: true });
     } else {
       return res
         .json({
           success: false,
           message: "Error fetching entry. Try again!",
         })
-        .send();
+        ;
     }
   } catch (error) {
     console.log(error);
@@ -310,7 +264,7 @@ app.delete("/entries/:entry_id", authenticateToken, async (req, res) => {
         success: false,
         message: "Something went wrong!",
       })
-      .send();
+      ;
   }
 });
 

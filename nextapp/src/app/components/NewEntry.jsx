@@ -2,6 +2,7 @@ import React from "react";
 import InputPassword from "./InputPassword";
 import EntryButtons from "./EntryButtons";
 import api from "@/utils/api";
+import { LiaRandomSolid } from "react-icons/lia";
 
 const NewEntry = ({
   setShowEmpty,
@@ -76,10 +77,10 @@ const NewEntry = ({
                 Password
               </p>
               <button
-                className="border border-white rounded text-white p-2 flex items-center justify-center hover:bg-white hover:bg-opacity-20"
+                className="text-white hover:opacity-50 "
                 onClick={generatePassword}
               >
-                generate password
+                <LiaRandomSolid size={20} />
               </button>
             </div>
             <InputPassword
@@ -121,15 +122,18 @@ const NewEntry = ({
             setShowEntry(false);
             setShowNewEntry(false);
           }}
+          disableDelete={true}
           onEditClick={() => {
             setShowEmpty(false);
             setShowEditor(true);
             setShowEntry(false);
             setShowNewEntry(false);
           }}
+          disableEdit={true}
           onSaveClick={() => {
             handleSave();
           }}
+          disableSave={false}
         />
       </div>
     </div>

@@ -13,12 +13,12 @@ const InputPassword = ({ value, onChange }) => {
       />
       {show ? (
         <RiEyeCloseLine
-          className="text-white text-xl cursor-pointer"
+          className="text-white text-xl hover:opacity-50 cursor-pointer"
           onClick={() => setShow(!show)}
         />
       ) : (
         <RiEyeLine
-          className="text-white text-xl cursor-pointer"
+          className="text-white text-xl hover:opacity-50 cursor-pointer"
           onClick={() => setShow(!show)}
         />
       )}

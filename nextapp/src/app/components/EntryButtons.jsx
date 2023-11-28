@@ -6,6 +6,9 @@ const EntryButtons = ({
   onEditClick,
   onSaveClick,
   onDeleteClick,
+  disableEdit,
+  disableSave,
+  disableDelete
 }) => {
   const handleEdit = () => {
     onEditClick();
@@ -24,7 +27,7 @@ const EntryButtons = ({
       <div className="flex flex-row justify-center items-center gap-2">
         <button type="submit" onClick={handleSave}>
           <div
-            className="border border-white rounded text-white p-2 hover:bg-white hover:bg-opacity-20"
+            className={"border border-white rounded text-white p-2 " + (disableSave ? " opacity-50 cursor-not-allowed bg-opacity-30 " : "hover:bg-white hover:bg-opacity-30")}
             onClick={handleSave}
           >
             <IoIosSave size={16} />
@@ -32,7 +35,7 @@ const EntryButtons = ({
         </button>
         <button type="submit" onClick={handleEdit}>
           <div
-            className="border border-white rounded text-white p-2 hover:bg-white hover:bg-opacity-20"
+            className={"border border-white rounded text-white p-2 " + (disableEdit ? " opacity-50 cursor-not-allowed bg-opacity-30" : " hover:bg-white hover:bg-opacity-30")}
             onClick={handleEdit}
           >
             <FaEdit size={16} />
@@ -40,7 +43,7 @@ const EntryButtons = ({
         </button>
         <button type="submit" onClick={handleDelete}>
           <div
-            className="border border-white rounded text-white p-2 hover:bg-white hover:bg-opacity-20"
+            className={"border border-white rounded text-white p-2 " + (disableDelete ? " opacity-50 cursor-not-allowed bg-opacity-30" : "hover:bg-white hover:bg-opacity-30")}
             onClick={handleDelete}
           >
             <FaTrashAlt size={16} />

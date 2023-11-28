@@ -94,9 +94,18 @@ const NewEntry = ({
       </div>
       <div className=" flex justify-center items-center">
         <EntryButtons
-          setShowEmpty={setShowEmpty}
-          setShowEditor={setShowEditor}
-          setShowEntry={setShowEntry}
+          onDeleteClick={() => {
+            setShowEmpty(true);
+            setShowEditor(false);
+            setShowEntry(false);
+            setShowNewEntry(false);
+          }}
+          onEditClick={() => {
+            setShowEmpty(false);
+            setShowEditor(true);
+            setShowEntry(false);
+            setShowNewEntry(false);
+          }}
           onSaveClick={() => {
             handleSave();
           }}

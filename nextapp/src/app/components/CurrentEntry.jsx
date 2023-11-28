@@ -84,9 +84,20 @@ const CurrentEntry = ({
           </div>
           <div className=" flex justify-center items-center">
             <EntryButtons
-              setShowEmpty={setShowEmpty}
-              setShowEditor={setShowEditor}
-              setShowEntry={setShowEntry}
+              onDeleteClick={() => {
+                setShowEmpty(true);
+                setShowEditor(false);
+                setShowEntry(false);
+              }}
+              onEditClick={() => {
+                setShowEmpty(false);
+                setShowEntry(false);
+              }}
+              onSaveClick={() => {
+                setShowEmpty(false);
+                setShowEditor(false);
+                setShowEntry(true);
+              }}
             />
           </div>
         </div>
@@ -136,9 +147,20 @@ const CurrentEntry = ({
           </div>
           <div className=" flex justify-center items-center">
             <EntryButtons
-              setShowEmpty={setShowEmpty}
-              setShowEditor={setShowEditor}
-              setShowEntry={setShowEntry}
+              onDeleteClick={() => {
+                setShowEmpty(true);
+                setShowEditor(false);
+                setShowEntry(false);
+              }}
+              onEditClick={() => {
+                setShowEmpty(false);
+                setShowEditor(true);
+                setShowEntry(false);
+              }}
+              onSaveClick={() => {
+                setShowEmpty(false);
+                setShowEditor(false);
+              }}
             />
           </div>
         </div>

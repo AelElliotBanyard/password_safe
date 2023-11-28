@@ -19,28 +19,29 @@ const page = () => {
   };
 
   return (
-    <div className="flex flex-col w-screen h-screen font-serif">
-      <p className="w-full h-1/6 text-3xl border-b-2 border-b-[#07111B] flex justify-center items-center ">
+    <div className="flex flex-col w-screen h-screen font-serif overflow-y-hidden">
+      <p className="w-full min-h-[16.7%] text-3xl border-b-2 border-b-[#07111B] flex justify-center items-center ">
         Password Safe
       </p>
 
-      <div className="flex flex-row">
-        <div className="h-5/6 w-1/3 p-10">
-          <div className=" bg-[#07111B] bg-opacity-30 rounded-lg flex flex-col overflow-y-scroll scrollbar-thumb-[#0C1F31] scrollbar-track-transparent justify-between shadow-lg shadow-[#0C1F31] p-5">
-            <div className="flex flex-col gap-2 p-2">
-              list
+      <div className=" h-5/6 flex flex-row">
+        <div className="flex flex-col min-h-full max-h-full w-1/3 pt-10 pb-10 pr-10 pl-10">
+          <div className=" h-full w-full bg-[#07111B] bg-opacity-30 rounded-lg flex flex-col justify-between shadow-lg shadow-[#0C1F31] p-5">
+            <div className=" max-h-[83.3%] flex flex-col overflow-y-scroll scrollbar scrollbar-thumb-[#225280] scrollbar-thumb-rounded-lg gap-2 p-2">
+             list
             </div>
             <button
+              className="h-1/6 w-full flex justify-center items-end"
               type="submit"
               onClick={handleNewEntry}
             >
-              <div className="border border-white rounded text-white p-2 flex items-center justify-center hover:bg-white hover:bg-opacity-20">
+              <div className=" h-1/2 w-full border border-white rounded text-white p-2 flex items-center justify-center hover:bg-white hover:bg-opacity-20">
                 <FaPlus size={16} />
               </div>
             </button>
           </div>
         </div>
-        <div className="flex flex-col h-full w-2/3 pt-10 pb-10 pr-32 pl-32">
+        <div className="flex flex-col min-h-[83.3%] w-2/3 pt-10 pb-10 pr-32 pl-32">
           <CurrentEntry />
           {showEntry && (
             <CurrentEntry

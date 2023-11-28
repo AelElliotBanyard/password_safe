@@ -123,6 +123,7 @@ const page = () => {
             <NewEntry
               setShowEntry={setShowEntry}
               setShowEditor={setShowEditor}
+              setShowEmpty={setShowEmpty}
               setShowNewEntry={setShowNewEntry}
             />
           )}

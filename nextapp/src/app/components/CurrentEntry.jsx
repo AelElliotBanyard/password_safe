@@ -50,7 +50,7 @@ const CurrentEntry = ({
                 <input
                   type="text"
                   className="text-white text-xl outline-none bg-transparent focus:outline-none"
-                  value={url}
+                  value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}

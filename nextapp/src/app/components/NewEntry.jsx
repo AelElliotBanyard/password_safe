@@ -30,6 +30,17 @@ const NewEntry = ({
       setShowNewEntry(false);
     }
   };
+
+  const generatePassword = () => {
+    const length = 12,
+      charset =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+    let retVal = "";
+    for (let i = 0, n = charset.length; i < length; ++i) {
+      retVal += charset.charAt(Math.floor(Math.random() * n));
+      setPassword(retVal);
+    }
+  };
   return (
     <div className="h-full bg-[#07111B] bg-opacity-30 rounded-lg flex flex-col justify-between gap-5 shadow-lg shadow-[#0C1F31] p-5 ">
       <p className="text-3xl text-white flex justify-center items-center font-serif ">
@@ -60,7 +71,17 @@ const NewEntry = ({
             />
           </div>
           <div className="flex flex-col gap-2 w-full border-b-2 border-b-[#07111B] ">
-            <p className="text-white opacity-75">Password</p>
+            <div className="flex flex-row w-full">
+              <p className="text-white opacity-75 flex-grow text-left">
+                Password
+              </p>
+              <button
+                className="border border-white rounded text-white p-2 flex items-center justify-center hover:bg-white hover:bg-opacity-20"
+                onClick={generatePassword}
+              >
+                generate password
+              </button>
+            </div>
             <InputPassword
               value={password}
               onChange={(e) => {

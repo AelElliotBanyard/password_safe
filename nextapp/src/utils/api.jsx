@@ -18,11 +18,11 @@ const login = async ({ email, password, setToken }) => {
       password,
     });
     if (response.data.success) {
+      setToken(response.headers.getAuthorization());
       axiosInstance.interceptors.request.use(
         function (config) {
           if (typeof response.headers.getAuthorization === "function") {
             config.headers.Authorization = response.headers.getAuthorization();
-            setToken(response.headers.getAuthorization());
           }
           return config;
         },

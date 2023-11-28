@@ -62,7 +62,6 @@ app.post("/login", async (req, res) => {
       .header("Access-Control-Expose-Headers", "Authorization")
       .header("Authorization", "Bearer " + accessToken)
       .json({ success: true, user: user.user })
-      .send();
   } else {
     return res.send(login.message);
   }
@@ -80,14 +79,13 @@ app.post("/register", async (req, res) => {
         password: password,
       });
       if (user.success) {
-        return res.json(user).status(200).send();
+        return res.json(user).status(200);
       } else {
         return res
           .json({
             success: false,
             message: "User creation failed. Try again!",
           })
-          .send();
       }
     } else {
       return res
@@ -95,7 +93,6 @@ app.post("/register", async (req, res) => {
           success: false,
           message: "User already exists!",
         })
-        .send();
     }
   } catch (error) {
     console.log(error);
@@ -104,7 +101,7 @@ app.post("/register", async (req, res) => {
         success: false,
         message: "Something went wrong!",
       })
-      .send();
+      ;
   }
 });
 
@@ -120,14 +117,14 @@ app.post("/createEntry", authenticateToken, async (req, res) => {
       user_id: req.user._id,
     });
     if (newEntry.success) {
-      return res.json(newEntry).status(200).send();
+      return res.json(newEntry).status(200);
     } else {
       return res
         .json({
           success: false,
           message: "Entry creation failed. Try again!",
         })
-        .send();
+        ;
     }
   } catch (error) {
     console.log(error);
@@ -136,7 +133,7 @@ app.post("/createEntry", authenticateToken, async (req, res) => {
         success: false,
         message: "Something went wrong!",
       })
-      .send();
+      ;
   }
 });
 
@@ -145,14 +142,14 @@ app.get("/entries", authenticateToken, async (req, res) => {
   try {
     const entries = await getEntries({ user_id: _id });
     if (entries.success) {
-      return res.json(entries).send();
+      return res.json(entries);
     } else {
       return res
         .json({
           success: false,
           message: "Error fetching entries. Try again!",
         })
-        .send();
+        ;
     }
   } catch (error) {
     console.log(error);
@@ -161,7 +158,7 @@ app.get("/entries", authenticateToken, async (req, res) => {
         success: false,
         message: "Something went wrong!",
       })
-      .send();
+      ;
   }
 });
 
@@ -171,14 +168,14 @@ app.get("/entries/:entry_id", async (req, res) => {
   try {
     const entry = await getEntry({ user_id: _id, entry_id: entry_id });
     if (entry.success) {
-      return res.json(entry).send();
+      return res.json(entry);
     } else {
       return res
         .json({
           success: false,
           message: "Error fetching entry. Try again!",
         })
-        .send();
+        ;
     }
   } catch (error) {
     console.log(error);
@@ -187,7 +184,7 @@ app.get("/entries/:entry_id", async (req, res) => {
         success: false,
         message: "Something went wrong!",
       })
-      .send();
+      ;
   }
 });
 
@@ -222,14 +219,14 @@ app.put("/entries/:entry_id", authenticateToken, async (req, res) => {
   try {
     const entry = await updateEntry(newEntry);
     if (entry.success) {
-      return res.json(entry).send();
+      return res.json(entry);
     } else {
       return res
         .json({
           success: false,
           message: "Error fetching entry. Try again!",
         })
-        .send();
+        ;
     }
   } catch (error) {
     console.log(error);
@@ -238,7 +235,7 @@ app.put("/entries/:entry_id", authenticateToken, async (req, res) => {
         success: false,
         message: "Something went wrong!",
       })
-      .send();
+      ;
   }
 });
 
@@ -251,14 +248,14 @@ app.delete("/entries/:entry_id", authenticateToken, async (req, res) => {
       user_id: _id,
     });
     if (entry.success) {
-      return res.json({ success: true }).send();
+      return res.json({ success: true });
     } else {
       return res
         .json({
           success: false,
           message: "Error fetching entry. Try again!",
         })
-        .send();
+        ;
     }
   } catch (error) {
     console.log(error);
@@ -267,7 +264,7 @@ app.delete("/entries/:entry_id", authenticateToken, async (req, res) => {
         success: false,
         message: "Something went wrong!",
       })
-      .send();
+      ;
   }
 });
 

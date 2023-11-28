@@ -82,7 +82,7 @@ const page = () => {
           onChange={(e) => setConPassword(e.target.value)}
         />
         <button
-          className="h-8 border-white border text-white rounded w-full hover:bg-white hover:text-black"
+          className="h-8 border-white border text-white rounded w-full hover:bg-white hover:bg-opacity-30 "
           type="submit"
           onClick={Register}
         >

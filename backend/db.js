@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 
 const crypto = require("crypto");
 const algorithm = "aes-256-cbc";
-const key = Buffer.from(process.env.BACKEND_ENCRYPTION_KEY, "utf-8");
-const iv = Buffer.from(process.env.BACKEND_ENCRYPTION_IV, "utf-8");
+const key = Buffer.from(process.env.BACKEND_ENCRYPTION_KEY.toString(), "utf-8");
+const iv = Buffer.from(process.env.BACKEND_ENCRYPTION_IV.toString(), "utf-8");
 
 function encrypt(password) {
   const cipher = crypto.createCipheriv(algorithm, key, iv);

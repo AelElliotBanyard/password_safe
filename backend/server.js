@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const http = require("http");
 const cors = require("cors");
@@ -14,18 +15,21 @@ const {
 } = require("./db");
 
 const jwt = require("jsonwebtoken");
+const secretKey = process.env.BACKEND_TOKEN_SECRET;
 
 function generateAccessToken(user) {
-  return jwt.sign(user, process.env.TOKEN_SECRET, { expiresIn: "10m" });
+  return jwt.sign(user, secretKey, { expiresIn: "10m" });
 }
 function generateRefreshToken(user) {
-  return jwt.sign(user, process.env.TOKEN_SECRET, { expiresIn: "30m" });
+  return jwt.sign(user, secretKey, { expiresIn: "30m" });
 }
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const accessToken = authHeader && authHeader.split(" ")[1];
-  const refreshToken = req.cookies["refreshToken"];
+  const refreshToken = req.headers["cookie"]
+    .split("refreshToken=")[1]
+    .split(";")[0];
 
   if (!accessToken && !refreshToken) {
     return res.status(401).send("Access Denied. No token provided.");
@@ -84,9 +88,8 @@ app.post("/login", async (req, res) => {
       .header("Authorization", "Bearer " + accessToken)
       .cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        sameSite: "strict",
       })
-      .json({ success: true, user: user })
+      .json({ success: true, user: user.user })
       .send();
   } else {
     return res.send(login.message);

@@ -136,7 +136,9 @@ const updateEntry = async ({
 
 const deleteEntry = async ({ id }) => {
   try {
-    const response = await axiosInstance.delete(`entries/${id}`);
+    const response = await axiosInstance.post(`entries/delete`, {
+      entry_id: id,
+    });
     if (response.data.success) {
       return true;
     } else {

@@ -61,7 +61,7 @@ app.post("/login", async (req, res) => {
     return res
       .header("Access-Control-Expose-Headers", "Authorization")
       .header("Authorization", "Bearer " + accessToken)
-      .json({ success: true, user: user.user })
+      .json({ success: true, user: user.user });
   } else {
     return res.send(login.message);
   }
@@ -81,27 +81,23 @@ app.post("/register", async (req, res) => {
       if (user.success) {
         return res.json(user).status(200);
       } else {
-        return res
-          .json({
-            success: false,
-            message: "User creation failed. Try again!",
-          })
+        return res.json({
+          success: false,
+          message: "User creation failed. Try again!",
+        });
       }
     } else {
-      return res
-        .json({
-          success: false,
-          message: "User already exists!",
-        })
+      return res.json({
+        success: false,
+        message: "User already exists!",
+      });
     }
   } catch (error) {
     console.log(error);
-    return res
-      .json({
-        success: false,
-        message: "Something went wrong!",
-      })
-      ;
+    return res.json({
+      success: false,
+      message: "Something went wrong!",
+    });
   }
 });
 
@@ -119,21 +115,17 @@ app.post("/createEntry", authenticateToken, async (req, res) => {
     if (newEntry.success) {
       return res.json(newEntry).status(200);
     } else {
-      return res
-        .json({
-          success: false,
-          message: "Entry creation failed. Try again!",
-        })
-        ;
+      return res.json({
+        success: false,
+        message: "Entry creation failed. Try again!",
+      });
     }
   } catch (error) {
     console.log(error);
-    return res
-      .json({
-        success: false,
-        message: "Something went wrong!",
-      })
-      ;
+    return res.json({
+      success: false,
+      message: "Something went wrong!",
+    });
   }
 });
 
@@ -144,21 +136,17 @@ app.get("/entries", authenticateToken, async (req, res) => {
     if (entries.success) {
       return res.json(entries);
     } else {
-      return res
-        .json({
-          success: false,
-          message: "Error fetching entries. Try again!",
-        })
-        ;
+      return res.json({
+        success: false,
+        message: "Error fetching entries. Try again!",
+      });
     }
   } catch (error) {
     console.log(error);
-    return res
-      .json({
-        success: false,
-        message: "Something went wrong!",
-      })
-      ;
+    return res.json({
+      success: false,
+      message: "Something went wrong!",
+    });
   }
 });
 
@@ -170,21 +158,17 @@ app.get("/entries/:entry_id", async (req, res) => {
     if (entry.success) {
       return res.json(entry);
     } else {
-      return res
-        .json({
-          success: false,
-          message: "Error fetching entry. Try again!",
-        })
-        ;
+      return res.json({
+        success: false,
+        message: "Error fetching entry. Try again!",
+      });
     }
   } catch (error) {
     console.log(error);
-    return res
-      .json({
-        success: false,
-        message: "Something went wrong!",
-      })
-      ;
+    return res.json({
+      success: false,
+      message: "Something went wrong!",
+    });
   }
 });
 
@@ -221,26 +205,22 @@ app.put("/entries/:entry_id", authenticateToken, async (req, res) => {
     if (entry.success) {
       return res.json(entry);
     } else {
-      return res
-        .json({
-          success: false,
-          message: "Error fetching entry. Try again!",
-        })
-        ;
+      return res.json({
+        success: false,
+        message: "Error fetching entry. Try again!",
+      });
     }
   } catch (error) {
     console.log(error);
-    return res
-      .json({
-        success: false,
-        message: "Something went wrong!",
-      })
-      ;
+    return res.json({
+      success: false,
+      message: "Something went wrong!",
+    });
   }
 });
 
-app.delete("/entries/:entry_id", authenticateToken, async (req, res) => {
-  const { entry_id } = req.params;
+app.post("/entries/delete", authenticateToken, async (req, res) => {
+  const { entry_id } = req.body;
   const { _id } = req.user;
   try {
     const entry = await deleteEntry({
@@ -250,21 +230,17 @@ app.delete("/entries/:entry_id", authenticateToken, async (req, res) => {
     if (entry.success) {
       return res.json({ success: true });
     } else {
-      return res
-        .json({
-          success: false,
-          message: "Error fetching entry. Try again!",
-        })
-        ;
+      return res.json({
+        success: false,
+        message: "Error fetching entry. Try again!",
+      });
     }
   } catch (error) {
     console.log(error);
-    return res
-      .json({
-        success: false,
-        message: "Something went wrong!",
-      })
-      ;
+    return res.json({
+      success: false,
+      message: "Something went wrong!",
+    });
   }
 });
 

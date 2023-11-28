@@ -99,7 +99,7 @@ const CurrentEntry = ({
           <div className=" flex justify-center items-center">
             <EntryButtons
               onDeleteClick={() => {
-                api.deleteEntry({ id: currentEntry._id });
+                api.deleteEntry({ id: currentEntry.id });
                 setCurrentEntry({});
                 getData();
                 setShowEmpty(true);
@@ -113,7 +113,7 @@ const CurrentEntry = ({
               disableEdit={true}
               onSaveClick={() => {
                 api.updateEntry({
-                  id: currentEntry._id,
+                  id: currentEntry.id,
                   title: title,
                   username: username,
                   password: password,
@@ -121,7 +121,7 @@ const CurrentEntry = ({
                   description: description,
                 });
                 setCurrentEntry({
-                  _id: currentEntry._id,
+                  id: currentEntry.id,
                   title: title,
                   username: username,
                   password: password,
@@ -185,7 +185,7 @@ const CurrentEntry = ({
           <div className=" flex justify-center items-center">
             <EntryButtons
               onDeleteClick={() => {
-                api.deleteEntry({ id: currentEntry._id });
+                api.deleteEntry({ id: currentEntry.id });
                 setCurrentEntry({});
                 getData();
                 setShowEmpty(true);

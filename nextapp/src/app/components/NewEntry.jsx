@@ -25,7 +25,7 @@ const NewEntry = ({
       url,
       description,
     });
-    if (response.status === 200) {
+    if (response.data.success) {
       setShowEmpty(false);
       setShowEditor(false);
       setShowEntry(false);

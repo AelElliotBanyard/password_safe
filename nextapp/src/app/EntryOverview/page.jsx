@@ -56,17 +56,16 @@ const page = () => {
     getData();
   }, []);
 
-
   const handleLogout = () => {
-    api.logout({setToken});
+    api.logout({ setToken });
     router.replace("/");
   };
 
   return (
     <div className="flex flex-col w-screen h-screen font-serif overflow-y-hidden">
       <div className="flex flex-col justify-center items-center text-xl h-[16.7%] absolute pl-10 gap-5 text-white flex-grow hover:text-red-600 ">
-        <button className="flex flex-row" onClick={handleLogout} >
-          <BiLogOut size={48} /> 
+        <button className="flex flex-row" onClick={handleLogout}>
+          <BiLogOut size={48} />
         </button>
       </div>
       <p className="w-full min-h-[16.7%] text-3xl bg-[#07111B] bg-opacity-30 shadow-lg shadow-[#0C1F31] flex justify-center items-center font-bold ">
@@ -77,7 +76,7 @@ const page = () => {
         <div className="flex flex-col min-h-full max-h-full w-1/3 pt-10 pb-10 pr-10 pl-10">
           <div className=" h-full w-full bg-[#07111B] bg-opacity-30 rounded-lg flex flex-col justify-between shadow-lg shadow-[#0C1F31] p-5">
             <div className="h-1/6 w-full text-2xl font-bold flex items-center justify-center">
-              <p >Your Entry's</p>
+              <p>Your Entry's</p>
             </div>
             <div className=" max-h-[66.6%] flex flex-col overflow-y-scroll scrollbar scrollbar-thumb-[#225280] scrollbar-thumb-rounded-lg gap-5 p-2">
               {entries.map((entry, index) => (
@@ -147,6 +146,8 @@ const page = () => {
               showEditor={showEditor}
               currentEntry={currentEntry}
               showEntry={showEntry}
+              setCurrentEntry={setCurrentEntry}
+              getData={getData}
             />
           )}
           {showNewEntry && (
@@ -155,6 +156,7 @@ const page = () => {
               setShowEditor={setShowEditor}
               setShowEmpty={setShowEmpty}
               setShowNewEntry={setShowNewEntry}
+              getData={getData}
             />
           )}
           {showEmpty && <EmptySpace />}

@@ -50,9 +50,7 @@ const page = () => {
   }, [token, user]);
 
   useEffect(() => {
-    if (search !== "" && search !== " ") {
-      getData();
-    }
+    getData();
   }, [search]);
 
   const getData = async () => {

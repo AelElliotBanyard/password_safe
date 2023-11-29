@@ -182,7 +182,7 @@ const getEntries = async ({ user_id }) => {
 const getEntriesWithSearch = async ({ user_id, search }) => {
   try {
     let tempEntries = [];
-    const regex = new RegExp(searchTerm, "i");
+    const regex = new RegExp(search, "i");
     const entries = await Entry.find({
       user_id: user_id,
       title: { $regex: regex },

@@ -27,7 +27,7 @@ const NewEntry = ({
       url,
       description,
     });
-    if (response.data.success) {
+    if (response) {
       toast.success("Entry Created!", {
         theme: "dark",
       });

@@ -96,6 +96,19 @@ const getEntries = async () => {
   }
 };
 
+const getEntriesWithSearch = async ({ search }) => {
+  try {
+    const response = await axiosInstance.get(`entries?search=${search}`);
+    if (response.data.success) {
+      return response.data.entries;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    return false;
+  }
+};
+
 const getEntry = async ({ id }) => {
   try {
     const response = await axiosInstance.get(`entries/${id}`);
@@ -159,6 +172,7 @@ const api = {
   getEntry,
   updateEntry,
   deleteEntry,
+  getEntriesWithSearch,
 };
 
 export default api;

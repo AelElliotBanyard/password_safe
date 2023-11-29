@@ -9,7 +9,6 @@ import ListEntry from "../components/ListEntry";
 import { useTokenContext } from "@/context/TokenContext";
 import { useUserContext } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
-import { useUserContext } from "@/context/UserContext";
 import { BiLogOut } from "react-icons/bi";
 
 const page = () => {
@@ -42,11 +41,11 @@ const page = () => {
   };
 
   useEffect(() => {
-    console.log(token);
-    if (token === "" || token === null) {
+    console.log(user);
+    if (token === "" || token === null || user === null) {
       router.replace("/");
     }
-  }, [token]);
+  }, [token, user]);
 
   const getData = async () => {
     const response = await api.getEntries();
@@ -72,7 +71,9 @@ const page = () => {
         </button>
       </div>
       <p className="w-full min-h-[16.7%] text-3xl bg-[#07111B] bg-opacity-30 shadow-lg shadow-[#0C1F31] flex justify-center items-center font-bold ">
-        Welcome {user.firstname} {user.lastname}!
+        {user
+          ? `Welcome back ${user.firstname} ${user.lastname}!`
+          : "PASSWORD SAFE"}
       </p>
 
       <div className=" h-5/6 flex flex-row">

@@ -56,7 +56,7 @@ export default function Home() {
           Still don't have an account?{" "}
           <a
             className="text-blue-500 border-b border-blue-500"
-            href="/Registration"
+            href="/registration"
           >
             Click to register
           </a>

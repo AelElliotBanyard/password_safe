@@ -4,7 +4,7 @@ services:
     image: mongo:6-jammy
     ports:
       - "27017:27017"
-    env_file: ./docker.env
+    env_file: ./.env.docker
     volumes:
       - ./db/data:/data/db
       - ./db/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
@@ -12,8 +12,14 @@ services:
     build: ./backend
     ports:
       - "5001:5001"
-    env_file: ./docker.env
+    env_file: ./.env.docker
     environment:
       - MONGO_URI=mongodb
     depends_on:
       - mongodb
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:3000"
+    depends_on:
+      - api

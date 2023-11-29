@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
   },
 });
 
-const login = async ({ email, password, setToken }) => {
+const login = async ({ email, password, setToken, setUser }) => {
   try {
     const response = await axiosInstance.post("login", {
       email,
@@ -30,6 +30,7 @@ const login = async ({ email, password, setToken }) => {
           return Promise.reject(error);
         }
       );
+      setUser(response.data.user);
       return true;
     } else {
       return false;
@@ -85,6 +86,19 @@ const createEntry = async ({ title, description, username, password, url }) => {
 const getEntries = async () => {
   try {
     const response = await axiosInstance.get("entries");
+    if (response.data.success) {
+      return response.data.entries;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    return false;
+  }
+};
+
+const getEntriesWithSearch = async ({ search }) => {
+  try {
+    const response = await axiosInstance.get(`entries?search=${search}`);
     if (response.data.success) {
       return response.data.entries;
     } else {
@@ -158,6 +172,7 @@ const api = {
   getEntry,
   updateEntry,
   deleteEntry,
+  getEntriesWithSearch,
 };
 
 export default api;

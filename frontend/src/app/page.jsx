@@ -4,20 +4,28 @@ import Input from "./components/Input";
 import { useRouter } from "next/navigation";
 import api from "@/utils/api";
 import { useTokenContext } from "@/context/TokenContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useUserContext } from "@/context/UserContext";
 
 export default function Home() {
   const { setToken } = useTokenContext();
+  const { setUser } = useUserContext();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const router = useRouter();
 
   async function Login() {
     if (email === "" || password === "") {
-      alert("Please fill in all fields");
+      toast.error("Please fill in all fields", {
+        theme: "dark",
+      });
     } else {
-      const login = await api.login({ email, password, setToken });
+      const login = await api.login({ email, password, setToken, setUser });
       if (!login) {
-        alert("Wrong credentials");
+        toast.error("Wrong credentials", {
+          theme: "dark",
+        });
         return;
       }
       router.push("/entryOverview");
@@ -26,7 +34,8 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-20 min-h-screen w-screen items-center justify-center  font-serif">
-      <div className="w-max">
+      <div className="w-max flex flex-col gap-5 justify-center items-center">
+        <img src="./logo.png" className=" h-32" />
         <p className="animate-typing overflow-hidden whitespace-nowrap border-r-4 border-r-white pr-5 text-5xl text-white font-bold font-serif ">
           PASSWORD SAFE
         </p>
@@ -52,7 +61,6 @@ export default function Home() {
           Login
         </button>
         <p>
-          {" "}
           Still don't have an account?{" "}
           <a
             className="text-blue-500 border-b border-blue-500"
@@ -62,6 +70,18 @@ export default function Home() {
           </a>
         </p>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 }

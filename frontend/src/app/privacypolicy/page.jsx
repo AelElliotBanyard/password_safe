@@ -7,7 +7,7 @@ const page = () => {
       <p className="text-5xl text-white font-bold font-serif p-10">
         Privacy Policy
       </p>
-      <div className="flex flex-col gap-5 w-1/2 h-full">
+      <div className="flex flex-col gap-5 w-1/2 h-full p-b-10">
         <p>Last updated: November 29, 2023</p>
         <p>
           This Privacy Policy describes Our policies and procedures on the

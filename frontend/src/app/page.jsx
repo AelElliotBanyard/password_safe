@@ -6,9 +6,11 @@ import api from "@/utils/api";
 import { useTokenContext } from "@/context/TokenContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useUserContext } from "@/context/UserContext";
 
 export default function Home() {
   const { setToken } = useTokenContext();
+  const { setUser } = useUserContext();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const router = useRouter();
@@ -19,7 +21,7 @@ export default function Home() {
         theme: "dark",
       });
     } else {
-      const login = await api.login({ email, password, setToken });
+      const login = await api.login({ email, password, setToken, setUser });
       if (!login) {
         toast.error("Wrong credentials", {
           theme: "dark",

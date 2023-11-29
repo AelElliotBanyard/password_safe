@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
   },
 });
 
-const login = async ({ email, password, setToken }) => {
+const login = async ({ email, password, setToken, setUser }) => {
   try {
     const response = await axiosInstance.post("login", {
       email,
@@ -30,6 +30,7 @@ const login = async ({ email, password, setToken }) => {
           return Promise.reject(error);
         }
       );
+      setUser(response.data.user);
       return true;
     } else {
       return false;

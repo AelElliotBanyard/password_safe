@@ -4,6 +4,7 @@ import api from "@/utils/api";
 
 const tokenContextDefaultValues = {
   setToken: () => {},
+  token: null,
 };
 
 export const TokenContext = createContext(tokenContextDefaultValues);

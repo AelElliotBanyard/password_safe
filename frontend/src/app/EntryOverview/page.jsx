@@ -7,11 +7,14 @@ import EmptySpace from "../components/EmptySpace";
 import api from "@/utils/api";
 import ListEntry from "../components/ListEntry";
 import { useTokenContext } from "@/context/TokenContext";
+import { useUserContext } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
+import { useUserContext } from "@/context/UserContext";
 import { BiLogOut } from "react-icons/bi";
 
 const page = () => {
   const { token, setToken } = useTokenContext();
+  const { user } = useUserContext();
   const router = useRouter();
   const [entries, setEntries] = React.useState([]);
   const [showEditor, setShowEditor] = useState(false);
@@ -69,7 +72,7 @@ const page = () => {
         </button>
       </div>
       <p className="w-full min-h-[16.7%] text-3xl bg-[#07111B] bg-opacity-30 shadow-lg shadow-[#0C1F31] flex justify-center items-center font-bold ">
-        PASSWORD SAFE
+        Welcome {user.firstname} {user.lastname}!
       </p>
 
       <div className=" h-5/6 flex flex-row">

@@ -179,6 +179,37 @@ const getEntries = async ({ user_id }) => {
   }
 };
 
+const getEntriesWithSearch = async ({ user_id, search }) => {
+  try {
+    let tempEntries = [];
+    const regex = new RegExp(searchTerm, "i");
+    const entries = await Entry.find({
+      user_id: user_id,
+      title: { $regex: regex },
+    }).exec();
+    for (let i = 0; i < entries.length; i++) {
+      const entry = entries[i];
+      const password = decrypt(entry.password);
+      const tempEntry = {
+        id: entry._id,
+        title: entry.title,
+        description: entry.description,
+        username: entry.username,
+        password: password,
+        url: entry.url,
+        created_ts: entry.created_ts,
+        updated_ts: entry.updated_ts,
+        user_id: entry.user_id,
+      };
+      tempEntries.push(tempEntry);
+    }
+    return { success: true, entries: tempEntries };
+  } catch (error) {
+    console.log(error);
+    return { success: false };
+  }
+};
+
 const getEntry = async ({ entry_id, user_id }) => {
   try {
     const entry = await Entry.findOne({
@@ -272,4 +303,5 @@ module.exports = {
   getEntry,
   updateEntry,
   deleteEntry,
+  getEntriesWithSearch,
 };

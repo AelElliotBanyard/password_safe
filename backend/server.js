@@ -12,6 +12,7 @@ const {
   getEntry,
   updateEntry,
   deleteEntry,
+  getEntriesWithSearch,
 } = require("./db");
 
 const jwt = require("jsonwebtoken");
@@ -131,8 +132,14 @@ app.post("/createEntry", authenticateToken, async (req, res) => {
 
 app.get("/entries", authenticateToken, async (req, res) => {
   const { _id } = req.user;
+  let { search } = req.query;
   try {
-    const entries = await getEntries({ user_id: _id });
+    let entries;
+    if (!search) {
+      entries = await getEntries({ user_id: _id });
+    } else {
+      entries = await getEntriesWithSearch({ user_id: _id, search: search });
+    }
     if (entries.success) {
       return res.json(entries);
     } else {

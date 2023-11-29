@@ -43,7 +43,7 @@ const EntryButtons = ({
         </button>
         <button type="submit" onClick={handleDelete}>
           <div
-            className={"border border-white rounded text-white p-2 " + (disableDelete ? " opacity-50 cursor-not-allowed bg-opacity-30" : "hover:bg-white hover:bg-opacity-30")}
+            className={"border border-white rounded text-white p-2 " + (disableDelete ? " opacity-50 cursor-not-allowed bg-opacity-30" : "hover:bg-red-600 hover:bg-opacity-30")}
             onClick={handleDelete}
           >
             <FaTrashAlt size={16} />

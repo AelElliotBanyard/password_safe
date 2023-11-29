@@ -70,6 +70,9 @@ export default function Home() {
           </a>
         </p>
       </div>
+      <p className="w-full absolute bottom-0 left-0 right-0 text-center p-8 opacity-50">
+        Made by Ael Banyard & Evan Lüber
+      </p>
       <ToastContainer
         position="top-right"
         autoClose={2000}

@@ -13,6 +13,7 @@ const page = () => {
   const [password, setPassword] = React.useState("");
   const [conPassword, setConPassword] = React.useState("");
   const router = useRouter();
+  const [checkboxChecked, setCheckboxChecked] = React.useState(false);
 
   function PasswordCheck() {
     if (password === conPassword) {
@@ -93,10 +94,29 @@ const page = () => {
           placeholder={"Confirm Password"}
           onChange={(e) => setConPassword(e.target.value)}
         />
+        <div className="flex flex-row justify-center items-center gap-2 ">
+          <input
+            type="checkbox"
+            checked={checkboxChecked}
+            onChange={() => setCheckboxChecked(!checkboxChecked)}
+          />
+          <p>
+            I accept the{" "}
+            <a className="text-blue-500 border-b border-blue-500" href="/privacypolicy">
+              privacy policy
+            </a>
+          </p>
+        </div>
         <button
-          className="h-8 border-white border text-white rounded w-full hover:bg-white hover:bg-opacity-30 "
+          className={
+            "h-8 border-white border text-white rounded w-full  " +
+            (checkboxChecked
+              ? "hover:bg-white hover:bg-opacity-30"
+              : "opacity-50 cursor-not-allowed ")
+          }
           type="submit"
           onClick={Register}
+          disabled={!checkboxChecked}
         >
           Register
         </button>

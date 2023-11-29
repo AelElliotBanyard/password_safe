@@ -1,7 +1,7 @@
 "use client";
 import Input from "../components/Input";
 import React from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import api from "@/utils/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

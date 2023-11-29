@@ -3,8 +3,8 @@ import InputPassword from "./InputPassword";
 import EntryButtons from "./EntryButtons";
 import api from "@/utils/api";
 import { LiaRandomSolid } from "react-icons/lia";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NewEntry = ({
   setShowEmpty,
@@ -28,11 +28,18 @@ const NewEntry = ({
       description,
     });
     if (response.data.success) {
+      toast.success("Entry Created!", {
+        theme: "dark",
+      });
       setShowEmpty(false);
       setShowEditor(false);
       setShowEntry(false);
       setShowNewEntry(false);
       getData();
+    } else {
+      toast.error("Could not create entry", {
+        theme: "dark",
+      });
     }
   };
 
@@ -140,6 +147,18 @@ const NewEntry = ({
           disableSave={false}
         />
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 };

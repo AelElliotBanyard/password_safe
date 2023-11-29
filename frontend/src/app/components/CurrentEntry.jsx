@@ -23,6 +23,56 @@ const CurrentEntry = ({
   const [description, setDescription] = React.useState("");
   const [show, setShow] = React.useState(false);
 
+  const handleDelete = async () => {
+    const response = await api.deleteEntry({ id: currentEntry.id });
+    if (response) {
+      setCurrentEntry({});
+      getData();
+      setShowEmpty(true);
+      setShowEditor(false);
+      setShowEntry(false);
+      toast.success("Entry deleted!", {
+        theme: "dark",
+      });
+    } else {
+      toast.error("Could not delete entry", {
+        theme: "dark",
+      });
+    }
+  };
+
+  const handleSave = async () => {
+    const response = await api.updateEntry({
+      id: currentEntry.id,
+      title: title,
+      username: username,
+      password: password,
+      url: url,
+      description: description,
+    });
+    if (response) {
+      setCurrentEntry({
+        id: currentEntry.id,
+        title: title,
+        username: username,
+        password: password,
+        url: url,
+        description: description,
+      });
+      getData();
+      setShowEmpty(false);
+      setShowEditor(false);
+      setShowEntry(true);
+      toast.success("Entry updated!", {
+        theme: "dark",
+      });
+    } else {
+      toast.error("Could not update entry", {
+        theme: "dark",
+      });
+    }
+  };
+
   React.useEffect(() => {
     if (currentEntry) {
       setTitle(currentEntry.title);
@@ -101,18 +151,7 @@ const CurrentEntry = ({
           <div className=" flex justify-center items-center">
             <EntryButtons
               onDeleteClick={() => {
-                api.deleteEntry({ id: currentEntry.id });
-                setCurrentEntry({});
-                getData();
-                setShowEmpty(true);
-                setShowEditor(false);
-                setShowEntry(false);
-                toast.success("Entry deleted!", {
-                  theme: "dark",
-                });
-                /*toast.error("Could not delete entry", {
-                  theme: "dark",
-                });*/
+                handleDelete();
               }}
               onEditClick={() => {
                 setShowEmpty(false);
@@ -120,32 +159,7 @@ const CurrentEntry = ({
               }}
               disableEdit={true}
               onSaveClick={() => {
-                api.updateEntry({
-                  id: currentEntry.id,
-                  title: title,
-                  username: username,
-                  password: password,
-                  url: url,
-                  description: description,
-                });
-                setCurrentEntry({
-                  id: currentEntry.id,
-                  title: title,
-                  username: username,
-                  password: password,
-                  url: url,
-                  description: description,
-                });
-                getData();
-                setShowEmpty(false);
-                setShowEditor(false);
-                setShowEntry(true);
-                toast.success("Entry updated!", {
-                  theme: "dark",
-                });
-                /*toast.error("Could not update entry", {
-                  theme: "dark",
-                });*/
+                handleSave();
               }}
               disableSave={false}
               disableDelete={false}
@@ -199,12 +213,7 @@ const CurrentEntry = ({
           <div className=" flex justify-center items-center">
             <EntryButtons
               onDeleteClick={() => {
-                api.deleteEntry({ id: currentEntry.id });
-                setCurrentEntry({});
-                getData();
-                setShowEmpty(true);
-                setShowEditor(false);
-                setShowEntry(false);
+                handleDelete();
               }}
               onEditClick={() => {
                 setShowEmpty(false);

@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import Input from "./components/Input";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import api from "@/utils/api";
 import { useTokenContext } from "@/context/TokenContext";
 
@@ -20,10 +20,9 @@ export default function Home() {
         alert("Wrong credentials");
         return;
       }
-      router.push("/EntryOverview");
+      router.push("/entryOverview");
     }
   }
-
 
   return (
     <div className="flex flex-col gap-20 min-h-screen w-screen items-center justify-center  font-serif">

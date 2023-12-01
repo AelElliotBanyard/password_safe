@@ -13,7 +13,7 @@ const NewEntry = ({
   setShowNewEntry,
   getData,
 }) => {
-  const [title, setTitle] = React.useState("");
+  const [title, setTitle] = React.useState("Title");
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [url, setUrl] = React.useState("");
@@ -55,22 +55,18 @@ const NewEntry = ({
   };
   return (
     <div className="h-full bg-[#07111B] bg-opacity-30 rounded-lg flex flex-col justify-between gap-5 shadow-lg shadow-[#0C1F31] p-5 ">
-      <p className="text-3xl text-white flex justify-center items-center font-serif ">
-        {title === "" ? "New Entry" : title}
-      </p>
+      <div className=" w-full flex items-center justify-center border-none text-3xl text-white">
+        <input
+          type="text"
+          className="text-3xl w-full text-white flex justify-center items-center border-none font-serif bg-transparent outline-none focus:outline-none"
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
+        />
+      </div>
       <div className="flex flex-col text-lg justify-center items-center ">
         <div className="flex flex-col w-full gap-8">
-          <div className="flex flex-col gap-2 w-full border-b-2 border-b-[#07111B]">
-            <p className="text-white opacity-75">Title</p>
-            <input
-              type="text"
-              className="text-white text-xl outline-none bg-transparent focus:outline-none"
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
-            />
-          </div>
           <div className="flex flex-col gap-2 w-full border-b-2 border-b-[#07111B]">
             <p className="text-white opacity-75">Username</p>
             <input

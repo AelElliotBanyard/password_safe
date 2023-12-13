@@ -112,7 +112,7 @@ const page = () => {
                 <div
                   className={
                     " " +
-                    (entry === currentEntry
+                    (entry.id === currentEntry.id
                       ? "border-none bg-[#07111B] p-3 rounded "
                       : "")
                   }
